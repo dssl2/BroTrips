@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Collaborative Xi'an Travel Plan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .edit-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .edit-btn:hover {
+            background-color: #3d8b40;
+        }
+        
+        .editing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+        }
+        
+        .editing-indicator.active {
+            color: #4CAF50;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .main-content {
+            flex: 3;
+            min-width: 300px;
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .attraction-item {
+            border-left: 4px solid #6a11cb;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9ff;
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.2s;
+        }
+        
+        .attraction-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .attraction-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .attraction-address {
+            color: #666;
+            margin-bottom: 5px;
+            padding-left: 10px;
+        }
+        
+        .attraction-item.editable {
+            cursor: text;
+            outline: none;
+        }
+        
+        .attraction-item.editable:focus {
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+        }
+        
+        .media-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .media-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+        
+        .media-item:hover {
+            background-color: #e8efff;
+        }
+        
+        .media-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            width: 30px;
+        }
+        
+        .douyin { color: #ff0050; }
+        .bilibili { color: #fb7299; }
+        .train { color: #00a1d6; }
+        
+        .notes {
+            min-height: 200px;
+        }
+        
+        .notes-content {
+            padding: 15px;
+            background-color: #f9f9ff;
+            border-radius: 8px;
+            min-height: 150px;
+            outline: none;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .notes-content:focus {
+            border-color: #6a11cb;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .save-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        
+        .save-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Xi'an Travel Plan</h1>
+            <p class="subtitle">Collaborative travel planning for Xi'an attractions - Edit directly in your browser</p>
+        </header>
+        
+        <div class="status-bar">
+            <div class="edit-status">
+                <button class="edit-btn" id="editToggle">
+                    <i class="fas fa-edit"></i> Enable Editing
+                </button>
+                <div class="editing-indicator" id="editingIndicator">
+                    <i class="fas fa-circle"></i> Editing disabled
+                </div>
+            </div>
+            <div>
+                <i class="fas fa-users"></i> <span id="userCount">1</span> user(s) viewing
+            </div>
+        </div>
+        
+        <div class="content">
+            <div class="main-content">
+                <div class="card">
+                    <h2><i class="fas fa-map-marked-alt"></i> Xi'an Attractions</h2>
+                    <div id="attractionsList">
+                        <!-- Attractions will be loaded here -->
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-sticky-note"></i> Travel Notes & Planning</h2>
+                    <div class="notes">
+                        <div class="notes-content" id="notesContent" contenteditable="false">
+                            <p><strong>Sample notes:</strong></p>
+                            <p>• Prioritize visiting the Terracotta Warriors Museum early in the day to avoid crowds</p>
+                            <p>• Buy a Xi'an City Wall cycling pass for the best experience</p>
+                            <p>• Try the local food at Muslim Quarter in the evening</p>
+                            <p>• Check opening times for each attraction before visiting</p>
+                            <p>• Use the metro system for efficient travel between sites</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar">
+                <div class="card">
+                    <h2><i class="fas fa-video"></i> Media Links</h2>
+                    <div class="media-links">
+                        <a href="https://www.douyin.com/video/7518707672566517055" target="_blank" class="media-item">
+                            <div class="media-icon douyin">
+                                <i class="fab fa-tiktok"></i>
+                            </div>
+                            <div>
+                                <div class="media-title">Douyin Video</div>
+                                <div class="media-desc">Xi'an travel highlights</div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.bilibili.com/video/BV1pKtpzRErD/" target="_blank" class="media-item">
+                            <div class="media-icon bilibili">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                            <div>
+                                <div class="media-title">Bilibili Video 1</div>
+                                <div class="media-desc">Xi'an travel guide</div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.bilibili.com/video/BV1TbrSYaEku" target="_blank" class="media-item">
+                            <div class="media-icon bilibili">
+                                <i class="fas fa-play-circle"></i>
+                            </div>
+                            <div>
+                                <div class="media-title">Bilibili Video 2</div>
+                                <div class="media-desc">Xi'an attractions review</div>
+                            </div>
+                        </a>
+                        
+                        <a href="https://www.metroman.cn/en/maps/xian/" target="_blank" class="media-item">
+                            <div class="media-icon train">
+                                <i class="fas fa-subway"></i>
+                            </div>
+                            <div>
+                                <div class="media-title">Xi'an Metro System</div>
+                                <div class="media-desc">Interactive train map</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2><i class="fas fa-info-circle"></i> How to Use</h2>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li style="margin-bottom: 10px;">Click "Enable Editing" to make changes</li>
+                        <li style="margin-bottom: 10px;">Click on any attraction to edit details</li>
+                        <li style="margin-bottom: 10px;">Edit the travel notes directly</li>
+                        <li style="margin-bottom: 10px;">Changes are saved automatically</li>
+                        <li style="margin-bottom: 10px;">Share the URL with travel partners</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Collaborative Xi'an Travel Plan • All changes are saved in your browser's local storage</p>
+            <p>Share this page URL with your travel group to collaborate</p>
+        </footer>
+        
+        <div class="save-notification" id="saveNotification">
+            <i class="fas fa-check-circle"></i> Changes saved successfully!
+        </div>
+    </div>
+
+    <script>
+        // Attractions data
+        const attractions = [
+            { name: "回民街", address: "北院门125号1-51(钟楼地铁站出入口步行430米)" },
+            { name: "大唐芙蓉园", address: "西安市雁塔区曲江新区芙蓉西路99号" },
+            { name: "大明宫国家遗址公园", address: "西安市新城区自强东路585号" },
+            { name: "陕西历史博物馆", address: "西安市雁塔区小寨东路91号" },
+            { name: "西安城墙永宁门城楼", address: "西安市碑林区南大街2号西安城墙内(南侧)" },
+            { name: "小雁塔", address: "西安市碑林区友谊西路74号" },
+            { name: "大雁塔文化休闲景区", address: "西安市雁塔区和平门外雁塔路123号" },
+            { name: "大学习巷清真寺(暂停开放)", address: "西安市莲湖区大学习巷94号" },
+            { name: "秦始皇帝陵博物院", address: "西安市临潼区秦陵北路" },
+            { name: "大唐不夜城(地铁站)", address: "西安市雁塔区8号(环)线" },
+            { name: "西安W酒店", address: "曲江池东路333号(寒窑地铁站B2口步行400米)" }
+        ];
+
+        // DOM Elements
+        const editToggle = document.getElementById('editToggle');
+        const editingIndicator = document.getElementById('editingIndicator');
+        const attractionsList = document.getElementById('attractionsList');
+        const notesContent = document.getElementById('notesContent');
+        const saveNotification = document.getElementById('saveNotification');
+        const userCount = document.getElementById('userCount');
+
+        // State variables
+        let isEditing = false;
+        let userCounter = 1;
+
+        // Initialize the page
+        function initPage() {
+            loadAttractions();
+            loadNotes();
+            updateEditUI();
+            
+            // Simulate other users (for demo purposes)
+            setInterval(() => {
+                const randomChange = Math.random();
+                if (randomChange > 0.7) {
+                    userCounter = 1 + Math.floor(Math.random() * 4);
+                    userCount.textContent = userCounter;
+                }
+            }, 5000);
+        }
+
+        // Load attractions from localStorage or use default
+        function loadAttractions() {
+            const savedAttractions = localStorage.getItem('xianAttractions');
+            
+            if (savedAttractions) {
+                const parsedAttractions = JSON.parse(savedAttractions);
+                renderAttractions(parsedAttractions);
+            } else {
+                renderAttractions(attractions);
+                saveAttractions();
+            }
+        }
+
+        // Render attractions to the page
+        function renderAttractions(attractionsArray) {
+            attractionsList.innerHTML = '';
+            
+            attractionsArray.forEach((attraction, index) => {
+                const attractionElement = document.createElement('div');
+                attractionElement.className = 'attraction-item';
+                attractionElement.innerHTML = `
+                    <div class="attraction-name">${attraction.name}</div>
+                    <div class="attraction-address">${attraction.address}</div>
+                `;
+                
+                // Add click event for editing
+                attractionElement.addEventListener('click', () => {
+                    if (isEditing) {
+                        makeElementEditable(attractionElement, index);
+                    }
+                });
+                
+                attractionsList.appendChild(attractionElement);
+            });
+        }
+
+        // Make an attraction element editable
+        function makeElementEditable(element, index) {
+            const nameElement = element.querySelector('.attraction-name');
+            const addressElement = element.querySelector('.attraction-address');
+            
+            // Store original values
+            const originalName = nameElement.textContent;
+            const originalAddress = addressElement.textContent;
+            
+            // Make content editable
+            element.classList.add('editable');
+            nameElement.contentEditable = true;
+            addressElement.contentEditable = true;
+            
+            // Focus on the name
+            nameElement.focus();
+            
+            // Handle save on blur
+            const saveOnBlur = () => {
+                element.classList.remove('editable');
+                nameElement.contentEditable = false;
+                addressElement.contentEditable = false;
+                
+                // Save changes
+                updateAttraction(index, nameElement.textContent, addressElement.textContent);
+                
+                // Remove event listeners
+                nameElement.removeEventListener('blur', saveOnBlur);
+                addressElement.removeEventListener('blur', saveOnBlur);
+            };
+            
+            // Add blur event listeners
+            nameElement.addEventListener('blur', saveOnBlur);
+            addressElement.addEventListener('blur', saveOnBlur);
+            
+            // Also save on Enter key
+            nameElement.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addressElement.focus();
+                }
+            });
+            
+            addressElement.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveOnBlur();
+                }
+            });
+        }
+
+        // Update an attraction in the array and save
+        function updateAttraction(index, name, address) {
+            const savedAttractions = localStorage.getItem('xianAttractions');
+            let attractionsArray = savedAttractions ? JSON.parse(savedAttractions) : [...attractions];
+            
+            attractionsArray[index] = { name, address };
+            
+            localStorage.setItem('xianAttractions', JSON.stringify(attractionsArray));
+            showSaveNotification();
+        }
+
+        // Save attractions to localStorage
+        function saveAttractions() {
+            localStorage.setItem('xianAttractions', JSON.stringify(attractions));
+        }
+
+        // Load notes from localStorage
+        function loadNotes() {
+            const savedNotes = localStorage.getItem('xianTravelNotes');
+            if (savedNotes) {
+                notesContent.innerHTML = savedNotes;
+            }
+        }
+
+        // Show save notification
+        function showSaveNotification() {
+            saveNotification.classList.add('show');
+            setTimeout(() => {
+                saveNotification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Toggle edit mode
+        function toggleEditMode() {
+            isEditing = !isEditing;
+            
+            // Update notes content editable state
+            notesContent.contentEditable = isEditing;
+            
+            // Update UI
+            updateEditUI();
+            
+            // Save notes if we're exiting edit mode
+            if (!isEditing) {
+                localStorage.setItem('xianTravelNotes', notesContent.innerHTML);
+                showSaveNotification();
+            }
+        }
+
+        // Update edit UI based on current state
+        function updateEditUI() {
+            if (isEditing) {
+                editToggle.innerHTML = '<i class="fas fa-save"></i> Save & Disable Editing';
+                editToggle.style.backgroundColor = '#ff9800';
+                editingIndicator.innerHTML = '<i class="fas fa-circle"></i> Editing enabled';
+                editingIndicator.classList.add('active');
+                notesContent.style.backgroundColor = '#fff9e6';
+            } else {
+                editToggle.innerHTML = '<i class="fas fa-edit"></i> Enable Editing';
+                editToggle.style.backgroundColor = '#4CAF50';
+                editingIndicator.innerHTML = '<i class="fas fa-circle"></i> Editing disabled';
+                editingIndicator.classList.remove('active');
+                notesContent.style.backgroundColor = '#f9f9ff';
+            }
+        }
+
+        // Event listeners
+        editToggle.addEventListener('click', toggleEditMode);
+        
+        // Save notes on input (with debouncing)
+        let notesSaveTimeout;
+        notesContent.addEventListener('input', () => {
+            if (!isEditing) return;
+            
+            clearTimeout(notesSaveTimeout);
+            notesSaveTimeout = setTimeout(() => {
+                localStorage.setItem('xianTravelNotes', notesContent.innerHTML);
+                showSaveNotification();
+            }, 1000);
+        });
+
+        // Initialize the page
+        window.addEventListener('DOMContentLoaded', initPage);
+    </script>
+</body>
+</html>
