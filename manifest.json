@@ -1,0 +1,63 @@
+{
+  "memories": [
+    {
+      "file": "pages/2026_Xian.html",
+      "cover": "covers/2026_Xian.png",
+      "place": "Xi'an",
+      "year": 2026
+    },
+    {
+      "file": "pages/2024_KL.html",
+      "cover": "covers/2024_KL.png",
+      "place": "Kuala Lumpur",
+      "year": 2024
+    },
+    {
+      "file": "pages/2018_Phuket.html",
+      "cover": "covers/2018_Phuket.png",
+      "place": "Phuket",
+      "year": 2018
+    },
+    {
+      "file": "pages/2016_HK.html",
+      "cover": "covers/2016_HK.png",
+      "place": "Hong Kong",
+      "year": 2016
+    },
+    {
+      "file": "pages/2014_Macau.html",
+      "cover": "covers/2014_Macau.png",
+      "place": "Macau",
+      "year": 2014
+    },
+    {
+      "file": "pages/2012_Taiwan.html",
+      "cover": "covers/2012_Taiwan.png",
+      "place": "Taiwan",
+      "year": 2012
+    }
+  ],
+  "wishlist": [
+    {
+      "file": "pages/XXXX_Bali.html",
+      "cover": "covers/XXXX_Bali.png",
+      "place": "Bali"
+    },
+    {
+      "file": "pages/XXXX_Chongqing.html",
+      "cover": "covers/XXXX_Chongqing.png",
+      "place": "Chongqing"
+    },
+    {
+      "file": "pages/XXXX_Mexico.html",
+      "cover": "covers/XXXX_Mexico.png",
+      "place": "Mexico"
+    },
+    {
+      "file": "pages/XXXX_Saigon.html",
+      "cover": "covers/XXXX_Saigon.png",
+      "place": "Saigon"
+    }
+  ],
+  "coversDir": "covers"
+}

@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>2026 • Xi'an | Planboard</title>
+
+  <link rel="stylesheet" href="../css/trip_base.css">
+  <link rel="stylesheet" href="../css/2026_Xian.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="../covers/2026_Xian.png">
+</head>
+<body class="vibe-ancient">
+  <main class="wrap">
+    <div class="topbar">
+      <a class="back" href="../index.html">← Back to Index</a>
+      <div class="badges">
+        <span class="chip"><span class="pill"></span><span>Memories</span></span>
+        <span class="chip"><span class="pill"></span><span>2026 Plan</span></span>
+        <span class="chip"><span class="pill"></span><span>Xi'an</span></span>
+      </div>
+    </div>
+
+    <section class="hero" aria-label="Xi'an hero">
+      <div class="hero-inner">
+        <div>
+          <div class="kicker"><span class="pill"></span><span>Planboard</span></div>
+          <h1 class="title">Xi'an</h1>
+          <p class="sub">Edit in your browser. Everything saves locally so you can iterate fast, on the go.</p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#plan"><i class="fa-solid fa-list-check"></i> Start Planning</a>
+            <a class="btn" href="#attractions"><i class="fa-solid fa-location-dot"></i> Attractions</a>
+            <a class="btn" href="#notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
+            <a class="btn" href="#links"><i class="fa-solid fa-link"></i> Links</a>
+          </div>
+
+          <div class="planbar" id="planbar">
+            <div class="left">
+              <button class="toggle" id="editToggle"><i class="fa-solid fa-pen-to-square"></i> <span id="editLabel">Enable editing</span></button>
+              <span class="chip"><span class="pill"></span><span id="editState">Editing OFF</span></span>
+            </div>
+            <div class="small">
+              Shortcuts: <span class="kbd">E</span> edit · <span class="kbd">/</span> add · <span class="kbd">Esc</span> exit
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:12px;">
+            <h2>Quick Export / Import</h2>
+            <p>Move plans between devices or share with the crew.</p>
+            <div class="grid">
+              <div class="col-6"><button class="btn primary" id="exportBtn" style="width:100%;justify-content:center;"><i class="fa-solid fa-file-export"></i> Export JSON</button></div>
+              <div class="col-6"><button class="btn" id="importBtn" style="width:100%;justify-content:center;"><i class="fa-solid fa-file-import"></i> Import JSON</button></div>
+              <div class="col-12"><button class="btn" id="resetBtn" style="width:100%;justify-content:center; opacity:.9;"><i class="fa-solid fa-rotate-left"></i> Reset to defaults</button></div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="embed">
+            <iframe src="https://www.youtube-nocookie.com/embed/4mG0U4kqI0w?playsinline=1&modestbranding=1&rel=0" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            <a class="fallback" href="#links">More links ↓</a>
+          </div>
+          <div class="sigil" aria-hidden="true">🏯</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid" style="margin-top:14px;" id="plan">
+      <section class="card col-7" id="attractions">
+        <h2>Attractions</h2>
+        <p>With editing ON: click a row to edit, or use the add box.</p>
+
+        <div class="todo" id="attractionsList"></div>
+
+        <div class="todo-add" style="margin-top:12px;">
+          <input id="newName" placeholder="Add attraction name (e.g., Terracotta Warriors)">
+          <button id="addAttraction">Add</button>
+        </div>
+        <div class="small" style="margin-top:8px;">Tip: keep names short; put details in the address/notes.</div>
+      </section>
+
+      <section class="card col-5" id="notes">
+        <h2>Notes</h2>
+        <p>Editable memo space. Keep the “don’t forget” stuff here.</p>
+        <div id="notesContent" class="editable" contenteditable="false">
+<p><strong>Sample notes:</strong></p>
+                            <p>• Prioritize visiting the Terracotta Warriors Museum early in the day to avoid crowds</p>
+                            <p>• Buy a Xi'an City Wall cycling pass for the best experience</p>
+                            <p>• Try the local food at Muslim Quarter in the evening</p>
+                            <p>• Check opening times for each attraction before visiting</p>
+                            <p>• Use the metro system for efficient travel between sites</p>
+        </div>
+        <div style="height:10px;"></div>
+        <textarea class="note" id="dailyPlan" placeholder="Draft day-by-day plan here (auto-saves)…"></textarea>
+      </section>
+    </div>
+
+    <section class="card" id="links">
+      <h2>Links</h2>
+      <p>Hype + practical.</p>
+      <div class="grid" style="margin-top:10px;">
+        <div class="col-6">
+          <a class="btn" href="https://www.metroman.cn/en/maps/xian/" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-solid fa-subway"></i> Xi'an Metro Map ↗
+          </a>
+        </div>
+        <div class="col-6">
+          <a class="btn" href="https://www.bilibili.com/video/BV1pKtpzRErD/" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-solid fa-play"></i> Bilibili Guide ↗
+          </a>
+        </div>
+        <div class="col-6">
+          <a class="btn" href="https://www.bilibili.com/video/BV1TbrSYaEku" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-solid fa-play"></i> Bilibili Highlights ↗
+          </a>
+        </div>
+        <div class="col-6">
+          <a class="btn" href="https://www.douyin.com/video/7518707672566517055" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-brands fa-tiktok"></i> Douyin Hype ↗
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div>2026 • Xi'an — unified theme + editable planboard</div>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast">Saved</div>
+
+  <script>
+const attractions = [
+            { name: "回民街", address: "北院门125号1-51(钟楼地铁站出入口步行430米)" },
+            { name: "大唐芙蓉园", address: "西安市雁塔区曲江新区芙蓉西路99号" },
+            { name: "大明宫国家遗址公园", address: "西安市新城区自强东路585号" },
+            { name: "陕西历史博物馆", address: "西安市雁塔区小寨东路91号" },
+            { name: "西安城墙永宁门城楼", address: "西安市碑林区南大街2号西安城墙内(南侧)" },
+            { name: "小雁塔", address: "西安市碑林区友谊西路74号" },
+            { name: "大雁塔文化休闲景区", address: "西安市雁塔区和平门外雁塔路123号" },
+            { name: "大学习巷清真寺(暂停开放)", address: "西安市莲湖区大学习巷94号" },
+            { name: "秦始皇帝陵博物院", address: "西安市临潼区秦陵北路" },
+            { name: "大唐不夜城(地铁站)", address: "西安市雁塔区8号(环)线" },
+            { name: "西安W酒店", address: "曲江池东路333号(寒窑地铁站B2口步行400米)" }
+        ];
+
+    const KEY = "plan_xian_2026_v2";
+    const toast = document.getElementById("toast");
+    const editToggle = document.getElementById("editToggle");
+    const editLabel = document.getElementById("editLabel");
+    const editState = document.getElementById("editState");
+    const listEl = document.getElementById("attractionsList");
+    const notesEl = document.getElementById("notesContent");
+    const planEl = document.getElementById("dailyPlan");
+
+    const newName = document.getElementById("newName");
+    const addBtn = document.getElementById("addAttraction");
+
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let isEditing = false;
+
+    const DEFAULT = {
+      attractions: attractions.map(a => ({ name: a.name || "", address: a.address || "" , done:false })),
+      notesHtml: notesEl.innerHTML,
+      dailyPlan: "",
+    };
+
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toast.classList.remove("show"), 1100);
+    }
+
+    function load(){
+      try {
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return structuredClone(DEFAULT);
+        const data = JSON.parse(raw);
+        if(!data || !Array.isArray(data.attractions)) return structuredClone(DEFAULT);
+        return {
+          attractions: data.attractions,
+          notesHtml: typeof data.notesHtml === "string" ? data.notesHtml : DEFAULT.notesHtml,
+          dailyPlan: typeof data.dailyPlan === "string" ? data.dailyPlan : "",
+        };
+      } catch {
+        return structuredClone(DEFAULT);
+      }
+    }
+
+    function save(){
+      localStorage.setItem(KEY, JSON.stringify(state));
+      showToast("Saved");
+    }
+
+    let state = load();
+
+    function escapeHtml(s){
+      return String(s||"").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    function render(){
+      notesEl.innerHTML = state.notesHtml || "";
+      planEl.value = state.dailyPlan || "";
+
+      listEl.innerHTML = "";
+      state.attractions.forEach((a, idx) => {
+        const row = document.createElement("div");
+        row.className = "todo-item" + (a.done ? " done" : "");
+        row.innerHTML =
+          '<input type="checkbox" ' + (a.done ? "checked" : "") + ' aria-label="done">' +
+          '<div class="text">' +
+            '<div style="font-weight:950;">' + escapeHtml(a.name || "Untitled") + '</div>' +
+            '<div style="opacity:.78; font-weight:700; margin-top:4px;">' + escapeHtml(a.address || "Tap to add address / notes") + '</div>' +
+          '</div>' +
+          '<button class="btn" style="padding:8px 10px; border-radius:12px;" aria-label="delete">' +
+            '<i class="fa-solid fa-trash"></i>' +
+          '</button>';
+
+        const cb = row.querySelector("input");
+        cb.addEventListener("change", () => {
+          state.attractions[idx].done = !!cb.checked;
+          save();
+          render();
+        });
+
+        const del = row.querySelector("button");
+        del.addEventListener("click", (e) => {
+          e.preventDefault();
+          if(!confirm("Delete this attraction?")) return;
+          state.attractions.splice(idx, 1);
+          save();
+          render();
+        });
+
+        row.addEventListener("click", (e) => {
+          if(!isEditing) return;
+          if(e.target.closest("button") || e.target.closest("input")) return;
+          const name = prompt("Attraction name:", state.attractions[idx].name || "");
+          if(name === null) return;
+          const addr = prompt("Address / notes:", state.attractions[idx].address || "");
+          if(addr === null) return;
+          state.attractions[idx].name = name.trim();
+          state.attractions[idx].address = addr.trim();
+          save();
+          render();
+        });
+
+        listEl.appendChild(row);
+      });
+    }
+
+    function setEditing(on){
+      isEditing = !!on;
+      editToggle.classList.toggle("on", isEditing);
+      editLabel.textContent = isEditing ? "Editing enabled" : "Enable editing";
+      editState.textContent = isEditing ? "Editing ON" : "Editing OFF";
+      notesEl.setAttribute("contenteditable", isEditing ? "true" : "false");
+    }
+
+    // wire actions
+    editToggle.addEventListener("click", () => setEditing(!isEditing));
+
+    addBtn.addEventListener("click", () => {
+      if(!newName.value.trim()) return;
+      state.attractions.push({ name: newName.value.trim(), address: "", done:false });
+      newName.value = "";
+      save();
+      render();
+    });
+
+    notesEl.addEventListener("input", () => {
+      if(!isEditing) return;
+      state.notesHtml = notesEl.innerHTML;
+      localStorage.setItem(KEY, JSON.stringify(state));
+    });
+
+    planEl.addEventListener("input", () => {
+      state.dailyPlan = planEl.value;
+      localStorage.setItem(KEY, JSON.stringify(state));
+    });
+
+    exportBtn.addEventListener("click", async () => {
+      const text = JSON.stringify(state, null, 2);
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("Copied JSON");
+      } catch {
+        prompt("Copy JSON:", text);
+      }
+    });
+
+    importBtn.addEventListener("click", () => {
+      const raw = prompt("Paste JSON here:");
+      if(!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        if(!data || !Array.isArray(data.attractions)) throw new Error();
+        state = {
+          attractions: data.attractions,
+          notesHtml: typeof data.notesHtml === "string" ? data.notesHtml : "",
+          dailyPlan: typeof data.dailyPlan === "string" ? data.dailyPlan : "",
+        };
+        save();
+        render();
+      } catch {
+        alert("Invalid JSON");
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      if(!confirm("Reset Xi'an plan to defaults?")) return;
+      state = structuredClone(DEFAULT);
+      save();
+      render();
+    });
+
+    // shortcuts
+    document.addEventListener("keydown", (e) => {
+      if(e.key.toLowerCase() === "e") setEditing(!isEditing);
+      if(e.key === "Escape") setEditing(false);
+      if(e.key === "/" && !e.target.closest("input, textarea, [contenteditable='true']")) {
+        e.preventDefault();
+        newName.focus();
+      }
+    });
+
+    // init
+    setEditing(false);
+    render();
+  </script>
+</body>
+</html>

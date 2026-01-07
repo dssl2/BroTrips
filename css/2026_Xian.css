@@ -1,0 +1,234 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        
+        .edit-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .edit-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .edit-btn:hover {
+            background-color: #3d8b40;
+        }
+        
+        .editing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #666;
+        }
+        
+        .editing-indicator.active {
+            color: #4CAF50;
+        }
+        
+        .content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        
+        .main-content {
+            flex: 3;
+            min-width: 300px;
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+        }
+        
+        h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        .attraction-item {
+            border-left: 4px solid #6a11cb;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f9f9ff;
+            border-radius: 0 8px 8px 0;
+            transition: transform 0.2s;
+        }
+        
+        .attraction-item:hover {
+            transform: translateX(5px);
+        }
+        
+        .attraction-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 8px;
+        }
+        
+        .attraction-address {
+            color: #666;
+            margin-bottom: 5px;
+            padding-left: 10px;
+        }
+        
+        .attraction-item.editable {
+            cursor: text;
+            outline: none;
+        }
+        
+        .attraction-item.editable:focus {
+            background-color: #fff;
+            box-shadow: 0 0 0 2px rgba(106, 17, 203, 0.2);
+        }
+        
+        .media-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .media-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            background-color: #f5f7fa;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #333;
+            transition: background-color 0.2s;
+        }
+        
+        .media-item:hover {
+            background-color: #e8efff;
+        }
+        
+        .media-icon {
+            font-size: 1.5rem;
+            margin-right: 12px;
+            width: 30px;
+        }
+        
+        .douyin { color: #ff0050; }
+        .bilibili { color: #fb7299; }
+        .train { color: #00a1d6; }
+        
+        .notes {
+            min-height: 200px;
+        }
+        
+        .notes-content {
+            padding: 15px;
+            background-color: #f9f9ff;
+            border-radius: 8px;
+            min-height: 150px;
+            outline: none;
+            border: 1px solid #e0e0e0;
+        }
+        
+        .notes-content:focus {
+            border-color: #6a11cb;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .save-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 5px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s;
+        }
+        
+        .save-notification.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+        }

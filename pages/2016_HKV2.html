@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>2016 • Hong Kong — BOYZ TRIP</title>
+  <meta name="color-scheme" content="dark">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;650;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/boyz_memories.css">
+  <link rel="stylesheet" href="../css/2016_HK.css">
+
+  <style>
+    /* Local video embed helper (keeps this page self-contained) */
+    .video-frame{
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    }
+    .video-frame iframe{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  
+/* Photo carousel (loads from ../photos/2016_HK/manifest.json) */
+    .carousel{
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      overflow: hidden;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+    }
+    .carousel-main{
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,.35);
+    }
+    @media (max-width: 900px){
+      .carousel-main{aspect-ratio: 4 / 3;}
+    }
+    .carousel-main img{
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: rgba(0,0,0,.35);
+    }
+    .carousel-controls{
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      pointer-events: none;
+    }
+    .car-btn{
+      pointer-events: auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.45);
+      color: rgba(255,255,255,.92);
+      font-weight: 950;
+      cursor: pointer;
+      transition: transform .14s ease, background .14s ease;
+      user-select: none;
+    }
+    .car-btn:hover{transform: translateY(-1px); background: rgba(0,0,0,.55)}
+    .car-hud{
+      position: absolute;
+      left: 12px;
+      bottom: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(10px);
+      color: rgba(255,255,255,.90);
+      font-weight: 900;
+      font-size: 12px;
+    }
+    .carousel-strip{
+      display: flex;
+      gap: 8px;
+      padding: 10px;
+      overflow-x: auto;
+      border-top: 1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      scroll-snap-type: x mandatory;
+    }
+    .thumb{
+      width: 84px;
+      height: 58px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.25);
+      overflow: hidden;
+      cursor: pointer;
+      flex: 0 0 auto;
+      scroll-snap-align: start;
+      opacity: .78;
+      transition: opacity .14s ease, transform .14s ease;
+    }
+    .thumb:hover{opacity:1; transform: translateY(-1px)}
+    .thumb.active{opacity:1; box-shadow: 0 0 0 2px color-mix(in oklab, var(--accent) 65%, white) inset}
+    .thumb img{width:100%; height:100%; object-fit: cover}
+    .car-empty{
+      padding: 14px 14px 0;
+      color: rgba(255,255,255,.74);
+      font-weight: 650;
+      line-height: 1.55;
+    }
+    .car-actions{
+      padding: 12px 10px 12px;
+      border-top: 1px solid rgba(255,255,255,.10);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(0,0,0,.18);
+    }
+    .car-actions .row{
+      display:flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .car-actions .hint{
+      color: rgba(255,255,255,.66);
+      font-weight: 700;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+    .car-file{ display:none; }
+    .car-status{
+      color: rgba(255,255,255,.70);
+      font-weight: 750;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+</style>
+<link rel="preload" as="fetch" href="../photos/2016_HK/manifest.json" crossorigin>
+</head>
+<body>
+  <header class="topbar">
+    <a class="back" href="../index.html" aria-label="Back to index">← Index</a>
+
+    <div class="brand" aria-label="BOYZ trips">
+      <div class="dot" aria-hidden="true"></div>
+      <div class="stack">
+        <div class="title">BOYZ TRIPS</div>
+        <div class="sub">2016 · Hong Kong</div>
+      </div>
+    </div>
+
+    <div class="yearpill">2016</div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero" aria-label="Trip hero">
+      <div class="hero-inner">
+        <div class="kicker">
+          <span class="chip"><span class="pill"></span><span>Wedding</span></span>
+          <span class="chip"><span class="pill"></span><span>Bachelor Party</span></span>
+          <span class="chip"><span class="pill"></span><span>HK Skyline</span></span>
+          <span class="chip"><span class="pill"></span><span>Dim Sum</span></span>
+        </div>
+
+        <h1 class="h1">Hong Kong</h1>
+        <p class="tagline" aria-label="tagline"></p>
+      </div>
+    </section>
+
+    <section class="grid2" aria-label="Trip summary">
+      <article class="card">
+        <h2>Story</h2>
+        <p>Hong Kong was pure momentum: PC’s wedding + bachelor party packed into a city that never slows down.</p>
+        <p>Skyline views, street food, and the kind of nights that end with dim sum like it’s the most normal thing in the world.</p>
+      </article>
+
+      <article class="card">
+        <h2>Highlights</h2>
+        <ul>
+          <li><strong>Wedding:</strong> the main event — classic boys photo moments.</li>
+          <li><strong>Bachelor party:</strong> HK energy turned up to 11.</li>
+          <li><strong>Food:</strong> late-night eats, dim sum recoveries.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="moments" aria-label="Moments">
+      <div class="moment">
+        <div class="badge">🌆</div>
+        <p class="t">Skyline nights</p>
+        <p class="d">Views, lights, and the crew being loud in the best way.</p>
+      </div>
+      <div class="moment">
+        <div class="badge">🍜</div>
+        <p class="t">Street-food runs</p>
+        <p class="d">Quick stops that turned into full missions.</p>
+      </div>
+      <div class="moment">
+        <div class="badge">🕺</div>
+        <p class="t">Bachelor mode</p>
+        <p class="d">No downtime. Everybody involved.</p>
+      </div>
+    </section>
+
+    <section class="card mt12" aria-label="Video">
+      <h2>Video</h2>
+      <p>Quick recap clip. If the embed doesn’t load in your browser, use the button to open it on YouTube.</p>
+
+      <div class="video-frame">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/ObnEcJkA_-w?playsinline=1&modestbranding=1&rel=0"
+          title="2016 Hong Kong video"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="links" style="margin-top:12px;">
+        <a class="btn" href="https://youtu.be/ObnEcJkA_-w" target="_blank" rel="noopener">
+          <span class="spark"></span><span>Watch on YouTube ↗</span>
+        </a>
+      </div>
+    </section>
+
+<section class="card mt12" aria-label="Photos">
+      <h2>Photos</h2>
+      <p>
+        This carousel auto-loads <code>../photos/2016_HK/manifest.json</code> (because this page lives in <code>/pages</code>).
+        The manifest can list either full URLs or local filenames inside <code>photos/2016_HK/</code>.
+      </p>
+
+      <div class="carousel" id="photoCarousel">
+        <div class="carousel-main" id="carMain">
+          <img id="carImg" alt="HK photo" />
+          <div class="carousel-controls">
+            <button class="car-btn" id="carPrev" aria-label="Previous photo">‹</button>
+            <button class="car-btn" id="carNext" aria-label="Next photo">›</button>
+          </div>
+          <div class="car-hud"><span id="carCount">0 / 0</span></div>
+        </div>
+
+        <div class="car-empty" id="carEmpty">
+          No photos found yet.
+          <div style="margin-top:8px;">
+            Add <code>../photos/2016_HK/manifest.json</code> (recommended), or use “Load folder”.
+          </div>
+        </div>
+
+        <div class="carousel-strip" id="carStrip" aria-label="Thumbnails"></div>
+
+        <div class="car-actions">
+          <div class="row">
+            <div class="hint">Shortcuts: ← / → · click thumbnails · swipe on mobile</div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <input class="car-file" id="carFolder" type="file" accept="image/*" multiple webkitdirectory />
+              <input class="car-file" id="carManifestFile" type="file" accept="application/json" />
+              <a class="btn" href="#" id="carLoad"><span class="spark"></span><span>Load folder</span></a>
+              <a class="btn" href="#" id="carPickManifest"><span class="spark"></span><span>Load manifest file</span></a>
+              <a class="btn" href="#" id="carReload"><span class="spark"></span><span>Reload</span></a>
+            </div>
+          </div>
+
+          <div class="car-status" id="carStatus"></div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+    <section class="card mt12">
+      <h2>Links</h2>
+      <p>Add your album, maps, and videos anytime — the page theme stays consistent.</p>
+      <div class="links">
+        <a class="btn" href="../index.html" target="_self"><span class="spark"></span><span>Back to Index</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>BOYZ ARCHIVE</span> · built from <span>manifest.json</span>
+  </footer>
+
+<script>
+    (function(){
+      // This page is /pages/2016_HK.html, so photos live at ../photos/2016_HK/
+      const DIR = "../photos/2016_HK/";
+      const MANIFEST_URL = DIR + "manifest.json";
+      const MAX_SEQ = 220;        // how many 001..220 to try (fallback)
+      const MISS_LIMIT = 18;      // stop after N consecutive misses
+      const EXTS = ["jpg","jpeg","png","webp"];
+
+      const els = {
+        img: document.getElementById("carImg"),
+        prev: document.getElementById("carPrev"),
+        next: document.getElementById("carNext"),
+        count: document.getElementById("carCount"),
+        strip: document.getElementById("carStrip"),
+        empty: document.getElementById("carEmpty"),
+        loadBtn: document.getElementById("carLoad"),
+        reloadBtn: document.getElementById("carReload"),
+        folder: document.getElementById("carFolder"),
+        main: document.getElementById("carMain"),
+        status: document.getElementById("carStatus"),
+        manifestFile: document.getElementById("carManifestFile"),
+        pickManifest: document.getElementById("carPickManifest"),
+      };
+
+      let photos = [];
+      let idx = 0;
+
+      function pad3(n){ return String(n).padStart(3,"0"); }
+      function setStatus(msg){ if(els.status) els.status.textContent = msg || ""; }
+
+      function setEmpty(show){
+        els.empty.style.display = show ? "block" : "none";
+        els.strip.style.display = show ? "none" : "flex";
+      }
+
+      function render(){
+        if(!photos.length){
+          els.img.removeAttribute("src");
+          els.count.textContent = "0 / 0";
+          setEmpty(true);
+          return;
+        }
+        setEmpty(false);
+        idx = (idx + photos.length) % photos.length;
+
+        els.img.src = photos[idx].src;
+        els.img.alt = photos[idx].name || "HK photo";
+        els.count.textContent = (idx + 1) + " / " + photos.length;
+
+        [...els.strip.children].forEach((t,i) => t.classList.toggle("active", i === idx));
+      }
+
+      function buildThumbs(){
+        els.strip.innerHTML = "";
+        photos.forEach((p, i) => {
+          const t = document.createElement("div");
+          t.className = "thumb" + (i === idx ? " active" : "");
+          t.innerHTML = `<img src="${p.thumb || p.src}" alt="thumb">`;
+          t.addEventListener("click", () => { idx = i; render(); });
+          els.strip.appendChild(t);
+        });
+      }
+
+      function go(d){ idx += d; render(); }
+
+      // swipe
+      let startX = null;
+      els.main.addEventListener("touchstart", (e) => {
+        if(!e.touches || e.touches.length !== 1) return;
+        startX = e.touches[0].clientX;
+      }, {passive:true});
+      els.main.addEventListener("touchend", (e) => {
+        if(startX === null) return;
+        const endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : startX;
+        const dx = endX - startX;
+        startX = null;
+        if(Math.abs(dx) < 35) return;
+        go(dx > 0 ? -1 : 1);
+      });
+
+      // keyboard
+      document.addEventListener("keydown", (e) => {
+        if(e.key === "ArrowLeft") go(-1);
+        if(e.key === "ArrowRight") go(1);
+      });
+
+      els.prev.addEventListener("click", (e) => { e.preventDefault(); go(-1); });
+      els.next.addEventListener("click", (e) => { e.preventDefault(); go(1); });
+
+      function isHttpUrl(s){
+        try{
+          const u = new URL(s);
+          return u.protocol === "http:" || u.protocol === "https:";
+        }catch{ return false; }
+      }
+
+      function resolveMaybeRelative(s){
+        if(!s) return null;
+        if(isHttpUrl(s)) return s;
+        return DIR + String(s).replace(/^\.\//,"");
+      }
+
+      function normalizeManifestData(data){
+        let list = null;
+        if(Array.isArray(data)) list = data;
+        else if(data && Array.isArray(data.photos)) list = data.photos;
+        if(!list) return [];
+
+        return list.map((item, i) => {
+          if(typeof item === "string"){
+            const src = resolveMaybeRelative(item);
+            const name = item.split("/").pop() || ("photo_" + (i+1));
+            return { name, src, thumb: src };
+          }
+          if(item && typeof item === "object"){
+            const src = resolveMaybeRelative(item.src || item.url || "");
+            if(!src) return null;
+            const thumb = resolveMaybeRelative(item.thumb || item.thumbnail || item.src || item.url || "");
+            const name = item.name || item.title || (String(item.src || item.url || "").split("/").pop()) || ("photo_" + (i+1));
+            return { name, src, thumb };
+          }
+          return null;
+        }).filter(Boolean);
+      }
+
+      async function loadFromManifest(){
+        try{
+          const res = await fetch(MANIFEST_URL, {cache:"no-store"});
+          if(!res.ok) return null;
+          const data = await res.json();
+          const items = normalizeManifestData(data);
+          return items.length ? items : null;
+        }catch(err){
+          const msg = String(err && err.message ? err.message : err);
+          setStatus("Couldn’t load " + MANIFEST_URL + " (" + msg + "). If you opened this page as file://, browsers may block fetch. Use “Load manifest file” or run a local server (python -m http.server).");
+          return null;
+        }
+      }
+
+      function tryLoadImage(url){
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = url;
+        });
+      }
+
+      async function loadSequential(){
+        const found = [];
+        let miss = 0;
+        for(let i=1;i<=MAX_SEQ;i++){
+          let ok = false;
+          const base = pad3(i);
+          for(const ext of EXTS){
+            const name = `${base}.${ext}`;
+            const url = DIR + name;
+            // eslint-disable-next-line no-await-in-loop
+            const exists = await tryLoadImage(url);
+            if(exists){
+              found.push({ name, src:url, thumb:url });
+              ok = true;
+              break;
+            }
+          }
+          miss = ok ? 0 : (miss + 1);
+          if(miss >= MISS_LIMIT) break;
+        }
+        return found;
+      }
+
+      function loadFromFolder(files){
+        return files
+          .filter(f => f.type && f.type.startsWith("image/"))
+          .sort((a,b) => a.name.localeCompare(b.name))
+          .map(f => {
+            const u = URL.createObjectURL(f);
+            return { name: f.name, src: u, thumb: u };
+          });
+      }
+
+      async function loadAll(){
+        photos = [];
+        idx = 0;
+        setStatus("");
+
+        // 1) manifest first
+        const mf = await loadFromManifest();
+        if(mf && mf.length){
+          photos = mf;
+          buildThumbs();
+          render();
+          setStatus("Loaded " + photos.length + " photo(s) from manifest.json ✅");
+          return;
+        }
+
+        // 2) sequential fallback (001.jpg, 002.jpg...)
+        const seq = await loadSequential();
+        if(seq && seq.length){
+          photos = seq;
+          buildThumbs();
+          render();
+          setStatus("Loaded " + photos.length + " local photo(s) (001.jpg…) ✅");
+          return;
+        }
+
+        render();
+      }
+
+      els.loadBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        els.folder.click();
+      });
+      els.folder.addEventListener("change", () => {
+        const list = loadFromFolder(Array.from(els.folder.files || []));
+        if(list.length){
+          photos = list;
+          idx = 0;
+          buildThumbs();
+          render();
+          setStatus("Loaded " + photos.length + " photo(s) from folder ✅");
+        }else{
+          render();
+        }
+      });
+
+      els.pickManifest && els.pickManifest.addEventListener("click", (e) => {
+        e.preventDefault();
+        els.manifestFile && els.manifestFile.click();
+      });
+      els.manifestFile && els.manifestFile.addEventListener("change", async () => {
+        const f = els.manifestFile.files && els.manifestFile.files[0];
+        if(!f) return;
+        try{
+          const text = await f.text();
+          const data = JSON.parse(text);
+          const items = normalizeManifestData(data);
+          if(items.length){
+            photos = items;
+            idx = 0;
+            buildThumbs();
+            render();
+            setStatus("Loaded " + photos.length + " photo(s) from selected manifest file ✅");
+          }else{
+            setStatus("Selected manifest has no photos[] entries.");
+          }
+        }catch(err){
+          setStatus("Couldn’t parse selected manifest: " + String(err && err.message ? err.message : err));
+        }
+      });
+
+      els.reloadBtn.addEventListener("click", async (e) => {
+        e.preventDefault();
+        await loadAll();
+      });
+
+      loadAll();
+    })();
+  </script>
+</body>
+</html>
