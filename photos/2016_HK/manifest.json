@@ -3,7 +3,7 @@
   "photos": [
     "001.jpg",
     "002.webp",
-    { "name": "From a URL", "src": "https://wallpaperaccess.com/full/1137389.jpg", "thumb": "https://wallpaperaccess.com/full/1137389.jpg" }
+    { "name": "From a URL", "src": "https://wallpaperaccess.com/full/1137389.jpg", "thumb": "https://wallpaperaccess.com/full/1137389.jpg" },
     { "name": "2", "src": "https://calbee88.us3.quickconnect.to/webapi/entry.cgi/IMG_20241123_140526.jpg?id=105077&cache_key=%22105077_1733243912%22&type=%22unit%22&size=%22xl%22&album_id=71&api=%22SYNO.Foto.Thumbnail%22&method=%22get%22&version=2&SynoToken=kEpFe8460CGMI", "thumb": "https://calbee88.us3.quickconnect.to/webapi/entry.cgi/IMG_20241123_140526.jpg?id=105077&cache_key=%22105077_1733243912%22&type=%22unit%22&size=%22xl%22&album_id=71&api=%22SYNO.Foto.Thumbnail%22&method=%22get%22&version=2&SynoToken=kEpFe8460CGMI" }
 
     
