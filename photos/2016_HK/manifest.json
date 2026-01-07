@@ -1,12 +1,8 @@
+
 {
   "photos": [
-    {
-      "name": "IMG_8920",
-      "src": "https://d3i6fh83elv35t.cloudfront.net/static/2026/01/2026-01-07T164015Z_1958786938_RC2GWIAPYNDR_RTRMADP_3_USA-HEALTH-DIET-1200x677.jpg",
-      "thumb": "https://d3i6fh83elv35t.cloudfront.net/static/2026/01/2026-01-07T164015Z_1958786938_RC2GWIAPYNDR_RTRMADP_3_USA-HEALTH-DIET-1200x677.jpg"
-    }
-
+    "001.jpg",
+    "002.webp",
+    { "name": "From a URL", "src": "https://d3i6fh83elv35t.cloudfront.net/static/2026/01/2026-01-07T164015Z_1958786938_RC2GWIAPYNDR_RTRMADP_3_USA-HEALTH-DIET-1200x677.jpg", "thumb": "https://d3i6fh83elv35t.cloudfront.net/static/2026/01/2026-01-07T164015Z_1958786938_RC2GWIAPYNDR_RTRMADP_3_USA-HEALTH-DIET-1200x677.jpg" }
   ]
 }
-
-
