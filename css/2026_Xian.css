@@ -3,805 +3,335 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>2026 • Xi'an Schedule | Planboard</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    
-    body {
-      background-color: #f5f7fa;
-      color: #333;
-      line-height: 1.6;
-      padding: 20px;
-      min-height: 100vh;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding-bottom: 15px;
-      border-bottom: 1px solid #e0e0e0;
-    }
-    
-    .back-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background-color: #6a11cb;
-      color: white;
-      text-decoration: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background-color 0.3s;
-    }
-    
-    .back-btn:hover {
-      background-color: #5a0db5;
-    }
-    
-    .page-title {
-      color: #2575fc;
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-      text-align: center;
-    }
-    
-    .subtitle {
-      text-align: center;
-      color: #666;
-      margin-bottom: 30px;
-      font-size: 1.1rem;
-    }
-    
-    .controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: white;
-      padding: 15px 20px;
-      border-radius: 10px;
-      margin-bottom: 25px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-    }
-    
-    .edit-controls {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .edit-btn {
-      background-color: #4CAF50;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background-color 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    
-    .edit-btn:hover {
-      background-color: #3d8b40;
-    }
-    
-    .edit-btn.editing {
-      background-color: #ff9800;
-    }
-    
-    .edit-indicator {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 15px;
-      background-color: #f0f0f0;
-      border-radius: 5px;
-      font-weight: 600;
-    }
-    
-    .edit-indicator.active {
-      background-color: #e8f5e9;
-      color: #2e7d32;
-    }
-    
-    .days-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 25px;
-      margin-bottom: 40px;
-    }
-    
-    .day-card {
-      flex: 1;
-      min-width: 300px;
-      background-color: white;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    
-    .day-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    }
-    
-    .day-header {
-      background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-    
-    .day-number {
-      font-size: 1.8rem;
-      font-weight: 800;
-      margin-bottom: 5px;
-    }
-    
-    .day-title {
-      font-size: 1.2rem;
-      opacity: 0.9;
-    }
-    
-    .schedule-list {
-      padding: 20px;
-    }
-    
-    .schedule-item {
-      padding: 15px;
-      border-left: 4px solid #6a11cb;
-      margin-bottom: 15px;
-      background-color: #f9f9ff;
-      border-radius: 0 8px 8px 0;
-      position: relative;
-    }
-    
-    .schedule-item.done {
-      border-left-color: #4CAF50;
-      background-color: #f0f9f1;
-      opacity: 0.8;
-    }
-    
-    .schedule-time {
-      font-weight: 700;
-      color: #2575fc;
-      margin-bottom: 5px;
-      font-size: 1.1rem;
-    }
-    
-    .schedule-activity {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    
-    .schedule-details {
-      color: #666;
-      margin-bottom: 5px;
-    }
-    
-    .schedule-location {
-      color: #888;
-      font-size: 0.9rem;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    
-    .item-controls {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      display: flex;
-      gap: 8px;
-      opacity: 0;
-      transition: opacity 0.3s;
-    }
-    
-    .schedule-item:hover .item-controls {
-      opacity: 1;
-    }
-    
-    .control-btn {
-      background-color: white;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      width: 30px;
-      height: 30px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    
-    .control-btn:hover {
-      background-color: #f0f0f0;
-    }
-    
-    .control-btn.delete:hover {
-      background-color: #ffebee;
-      color: #f44336;
-      border-color: #f44336;
-    }
-    
-    .add-item-form {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
-      margin-bottom: 30px;
-    }
-    
-    .form-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      margin-bottom: 15px;
-    }
-    
-    .form-group {
-      flex: 1;
-      min-width: 200px;
-    }
-    
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 600;
-      color: #555;
-    }
-    
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 15px;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-      font-size: 1rem;
-    }
-    
-    textarea {
-      min-height: 80px;
-      resize: vertical;
-    }
-    
-    .add-btn {
-      background-color: #2575fc;
-      color: white;
-      border: none;
-      padding: 12px 25px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: 1rem;
-      transition: background-color 0.3s;
-    }
-    
-    .add-btn:hover {
-      background-color: #1c68e8;
-    }
-    
-    .footer {
-      text-align: center;
-      margin-top: 40px;
-      padding: 20px;
-      color: #666;
-      font-size: 0.9rem;
-      border-top: 1px solid #eee;
-    }
-    
-    .save-notification {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background-color: #4CAF50;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 5px;
-      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.3s;
-      z-index: 1000;
-    }
-    
-    .save-notification.show {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .empty-day {
-      text-align: center;
-      padding: 40px 20px;
-      color: #888;
-      font-style: italic;
-    }
-    
-    @media (max-width: 768px) {
-      .days-container {
-        flex-direction: column;
-      }
-      
-      .day-card {
-        min-width: 100%;
-      }
-      
-      .page-title {
-        font-size: 2rem;
-      }
-      
-      .controls {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-      }
-      
-      .form-row {
-        flex-direction: column;
-      }
-    }
-  </style>
+  <title>2026 • Xi'an | Planboard</title>
+
+  <link rel="stylesheet" href="../css/trip_base.css">
+  <link rel="stylesheet" href="../css/2026_Xian.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="../covers/2026_Xian.png">
 </head>
-<body>
-  <div class="container">
+<body class="vibe-ancient">
+  <main class="wrap">
     <div class="topbar">
-      <a href="2026_Xian.html" class="back-btn">
-        <i class="fas fa-arrow-left"></i> Back to Planboard
-      </a>
-      <div class="edit-controls">
-        <button class="edit-btn" id="editToggle">
-          <i class="fas fa-pen-to-square"></i>
-          <span id="editLabel">Enable Editing</span>
-        </button>
-        <div class="edit-indicator" id="editIndicator">
-          <i class="fas fa-lock"></i>
-          <span>Editing OFF</span>
-        </div>
+      <a class="back" href="../index.html">← Back to Index</a>
+      <div class="badges">
+        <span class="chip"><span class="pill"></span><span>Memories</span></span>
+        <span class="chip"><span class="pill"></span><span>2026 Plan</span></span>
+        <span class="chip"><span class="pill"></span><span>Xi'an</span></span>
       </div>
     </div>
-    
-    <h1 class="page-title">Xi'an Travel Schedule</h1>
-    <p class="subtitle">Day-by-day itinerary for your 2026 Xi'an trip. Click items to mark as done, or enable editing to customize.</p>
-    
-    <div class="add-item-form" id="addForm">
-      <h2 style="color: #2575fc; margin-bottom: 15px;">Add New Schedule Item</h2>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="itemDay">Day</label>
-          <select id="itemDay">
-            <option value="1">Day 1: Arrival & First Impressions</option>
-            <option value="2">Day 2: Historical Exploration</option>
-            <option value="3">Day 3: Cultural Immersion</option>
-            <option value="4">Day 4: Nature & Relaxation</option>
-            <option value="5">Day 5: Departure Day</option>
-          </select>
+
+    <section class="hero" aria-label="Xi'an hero">
+      <div class="hero-inner">
+        <div>
+          <div class="kicker"><span class="pill"></span><span>Planboard</span></div>
+          <h1 class="title">Xi'an</h1>
+          <p class="sub">Edit in your browser. Everything saves locally so you can iterate fast, on the go.</p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#plan"><i class="fa-solid fa-list-check"></i> Start Planning</a>
+            <a class="btn" href="#attractions"><i class="fa-solid fa-location-dot"></i> Attractions</a>
+            <a class="btn" href="#notes"><i class="fa-solid fa-note-sticky"></i> Notes</a>
+            <a class="btn" href="#links"><i class="fa-solid fa-link"></i> Links</a>
+          </div>
+
+          <div class="planbar" id="planbar">
+            <div class="left">
+              <button class="toggle" id="editToggle"><i class="fa-solid fa-pen-to-square"></i> <span id="editLabel">Enable editing</span></button>
+              <span class="chip"><span class="pill"></span><span id="editState">Editing OFF</span></span>
+            </div>
+            <div class="small">
+              Shortcuts: <span class="kbd">E</span> edit · <span class="kbd">/</span> add · <span class="kbd">Esc</span> exit
+            </div>
+          </div>
+
+          <div class="card" style="margin-top:12px;">
+            <h2>Quick Export / Import</h2>
+            <p>Move plans between devices or share with the crew.</p>
+            <div class="grid">
+              <div class="col-6"><button class="btn primary" id="exportBtn" style="width:100%;justify-content:center;"><i class="fa-solid fa-file-export"></i> Export JSON</button></div>
+              <div class="col-6"><button class="btn" id="importBtn" style="width:100%;justify-content:center;"><i class="fa-solid fa-file-import"></i> Import JSON</button></div>
+              <div class="col-12"><button class="btn" id="resetBtn" style="width:100%;justify-content:center; opacity:.9;"><i class="fa-solid fa-rotate-left"></i> Reset to defaults</button></div>
+            </div>
+          </div>
         </div>
-        <div class="form-group">
-          <label for="itemTime">Time</label>
-          <input type="text" id="itemTime" placeholder="e.g., 9:00 AM">
+
+        <div>
+          <div class="embed">
+            <iframe src="https://www.youtube-nocookie.com/embed/4mG0U4kqI0w?playsinline=1&modestbranding=1&rel=0" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            <a class="fallback" href="#links">More links ↓</a>
+          </div>
+          <div class="sigil" aria-hidden="true">🏯</div>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="itemActivity">Activity / Place</label>
-          <input type="text" id="itemActivity" placeholder="e.g., Visit Terracotta Warriors">
+    </section>
+
+    <div class="grid" style="margin-top:14px;" id="plan">
+      <section class="card col-7" id="attractions">
+        <h2>Attractions</h2>
+        <p>With editing ON: click a row to edit, or use the add box.</p>
+
+        <div class="todo" id="attractionsList"></div>
+
+        <div class="todo-add" style="margin-top:12px;">
+          <input id="newName" placeholder="Add attraction name (e.g., Terracotta Warriors)">
+          <button id="addAttraction">Add</button>
+        </div>
+        <div class="small" style="margin-top:8px;">Tip: keep names short; put details in the address/notes.</div>
+      </section>
+
+      <section class="card col-5" id="notes">
+        <h2>Notes</h2>
+        <p>Editable memo space. Keep the “don’t forget” stuff here.</p>
+        <div id="notesContent" class="editable" contenteditable="false">
+<p><strong>Sample notes:</strong></p>
+                            <p>• Prioritize visiting the Terracotta Warriors Museum early in the day to avoid crowds</p>
+                            <p>• Buy a Xi'an City Wall cycling pass for the best experience</p>
+                            <p>• Try the local food at Muslim Quarter in the evening</p>
+                            <p>• Check opening times for each attraction before visiting</p>
+                            <p>• Use the metro system for efficient travel between sites</p>
+        </div>
+        <div style="height:10px;"></div>
+        <textarea class="note" id="dailyPlan" placeholder="Draft day-by-day plan here (auto-saves)…"></textarea>
+      </section>
+    </div>
+
+    <section class="card" id="links">
+      <h2>Links</h2>
+      <p>Hype + practical.</p>
+      <div class="grid" style="margin-top:10px;">
+        <div class="col-6">
+          <a class="btn" href="https://www.metroman.cn/en/maps/xian/" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-solid fa-subway"></i> Xi'an Metro Map ↗
+          </a>
+        </div>
+        <div class="col-6">
+          <a class="btn" href="https://www.bilibili.com/video/BV1pKtpzRErD/" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-solid fa-play"></i> Bilibili Guide ↗
+          </a>
+        </div>
+        <div class="col-6">
+          <a class="btn" href="https://www.bilibili.com/video/BV1TbrSYaEku" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-solid fa-play"></i> Bilibili Highlights ↗
+          </a>
+        </div>
+        <div class="col-6">
+          <a class="btn" href="https://www.douyin.com/video/7518707672566517055" target="_blank" rel="noopener" style="width:100%;justify-content:center;">
+            <i class="fa-brands fa-tiktok"></i> Douyin Hype ↗
+          </a>
         </div>
       </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="itemDetails">Details / Notes</label>
-          <textarea id="itemDetails" placeholder="Add details, notes, or description..."></textarea>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label for="itemLocation">Location / Address</label>
-          <input type="text" id="itemLocation" placeholder="e.g., Terracotta Warriors Museum">
-        </div>
-      </div>
-      <button class="add-btn" id="addItemBtn">
-        <i class="fas fa-plus"></i> Add to Schedule
-      </button>
-    </div>
-    
-    <div class="days-container" id="daysContainer">
-      <!-- Days will be dynamically added here -->
-    </div>
-    
-    <div class="footer">
-      <p>2026 • Xi'an Travel Schedule — Editable day-by-day placecards</p>
-      <p style="margin-top: 5px; font-size: 0.8rem;">All data is saved locally in your browser</p>
-    </div>
-    
-    <div class="save-notification" id="saveNotification">
-      <i class="fas fa-check"></i> Schedule Saved
-    </div>
-  </div>
+    </section>
+
+    <footer>
+      <div>2026 • Xi'an — unified theme + editable planboard</div>
+    </footer>
+  </main>
+
+  <div class="toast" id="toast">Saved</div>
 
   <script>
-    // Sample schedule data
-    const defaultSchedule = {
-      days: [
-        {
-          id: 1,
-          title: "Arrival & First Impressions",
-          items: [
-            { id: 101, time: "2:00 PM", activity: "Arrive at Xi'an Xianyang Airport", details: "Flight from Shanghai, pickup arranged", location: "Xi'an Xianyang Airport", done: false },
-            { id: 102, time: "3:30 PM", activity: "Check into hotel", details: "Drop off luggage, freshen up", location: "Xi'an W Hotel", done: false },
-            { id: 103, time: "5:00 PM", activity: "Walk around Bell Tower area", details: "Get first impressions of the city", location: "Bell Tower Square", done: false },
-            { id: 104, time: "7:30 PM", activity: "Dinner at Muslim Quarter", details: "Try local street food and specialties", location: "Muslim Quarter", done: false }
-          ]
-        },
-        {
-          id: 2,
-          title: "Historical Exploration",
-          items: [
-            { id: 201, time: "8:30 AM", activity: "Terracotta Warriors Museum", details: "Early visit to avoid crowds, guided tour", location: "Terracotta Warriors Museum", done: false },
-            { id: 202, time: "1:00 PM", activity: "Lunch near museum", details: "Local restaurant recommended by guide", location: "Museum area", done: false },
-            { id: 203, time: "3:00 PM", activity: "Visit Huaqing Palace", details: "Historical hot springs and Tang dynasty palace", location: "Huaqing Palace", done: false },
-            { id: 204, time: "7:00 PM", activity: "Tang Dynasty Show", details: "Evening cultural performance with dinner", location: "Tang Dynasty Theater", done: false }
-          ]
-        },
-        {
-          id: 3,
-          title: "Cultural Immersion",
-          items: [
-            { id: 301, time: "9:00 AM", activity: "Shaanxi History Museum", details: "Explore ancient Chinese artifacts", location: "Shaanxi History Museum", done: false },
-            { id: 302, time: "12:30 PM", activity: "Lunch at local restaurant", details: "Try Shaanxi noodles and roujiamo", location: "Near museum", done: false },
-            { id: 303, time: "2:30 PM", activity: "Xi'an City Wall cycling", details: "Rent bikes and cycle the ancient wall", location: "Xi'an City Wall", done: false },
-            { id: 304, time: "5:00 PM", activity: "Visit Great Wild Goose Pagoda", details: "Buddhist pagoda and surrounding park", location: "Great Wild Goose Pagoda", done: false },
-            { id: 305, time: "7:30 PM", activity: "Dinner at Defachang Dumpling Restaurant", details: "Famous for variety of dumplings", location: "Defachang Restaurant", done: false }
-          ]
-        },
-        {
-          id: 4,
-          title: "Nature & Relaxation",
-          items: [
-            { id: 401, time: "9:30 AM", activity: "Visit Small Wild Goose Pagoda", details: "Less crowded than its larger counterpart", location: "Small Wild Goose Pagoda", done: false },
-            { id: 402, time: "11:30 AM", activity: "Explore Xi'an Museum", details: "Learn about city's history", location: "Xi'an Museum", done: false },
-            { id: 403, time: "2:00 PM", activity: "Forest of Steles Museum", details: "Collection of ancient stone tablets", location: "Forest of Steles Museum", done: false },
-            { id: 404, time: "4:30 PM", activity: "Relax at Daming Palace Park", details: "Walk through the imperial ruins", location: "Daming Palace National Heritage Park", done: false },
-            { id: 405, time: "7:00 PM", activity: "Farewell dinner", details: "Last night in Xi'an, try something special", location: "Fine dining restaurant", done: false }
-          ]
-        },
-        {
-          id: 5,
-          title: "Departure Day",
-          items: [
-            { id: 501, time: "9:00 AM", activity: "Last-minute souvenir shopping", details: "Pick up gifts for friends and family", location: "City center shops", done: false },
-            { id: 502, time: "11:00 AM", activity: "Check out of hotel", details: "Store luggage if flight is later", location: "Xi'an W Hotel", done: false },
-            { id: 503, time: "12:30 PM", activity: "Final Xi'an lunch", details: "One last taste of local cuisine", location: "Local restaurant", done: false },
-            { id: 504, time: "2:30 PM", activity: "Transfer to airport", details: "Taxi or arranged transfer", location: "Xi'an Xianyang Airport", done: false },
-            { id: 505, time: "4:30 PM", activity: "Flight departure", details: "Flight back to Shanghai", location: "Xi'an Xianyang Airport", done: false }
-          ]
-        }
-      ]
+const attractions = [
+            { name: "回民街", address: "北院门125号1-51(钟楼地铁站出入口步行430米)" },
+            { name: "大唐芙蓉园", address: "西安市雁塔区曲江新区芙蓉西路99号" },
+            { name: "大明宫国家遗址公园", address: "西安市新城区自强东路585号" },
+            { name: "陕西历史博物馆", address: "西安市雁塔区小寨东路91号" },
+            { name: "西安城墙永宁门城楼", address: "西安市碑林区南大街2号西安城墙内(南侧)" },
+            { name: "小雁塔", address: "西安市碑林区友谊西路74号" },
+            { name: "大雁塔文化休闲景区", address: "西安市雁塔区和平门外雁塔路123号" },
+            { name: "大学习巷清真寺(暂停开放)", address: "西安市莲湖区大学习巷94号" },
+            { name: "秦始皇帝陵博物院", address: "西安市临潼区秦陵北路" },
+            { name: "大唐不夜城(地铁站)", address: "西安市雁塔区8号(环)线" },
+            { name: "西安W酒店", address: "曲江池东路333号(寒窑地铁站B2口步行400米)" }
+        ];
+
+    const KEY = "plan_xian_2026_v2";
+    const toast = document.getElementById("toast");
+    const editToggle = document.getElementById("editToggle");
+    const editLabel = document.getElementById("editLabel");
+    const editState = document.getElementById("editState");
+    const listEl = document.getElementById("attractionsList");
+    const notesEl = document.getElementById("notesContent");
+    const planEl = document.getElementById("dailyPlan");
+
+    const newName = document.getElementById("newName");
+    const addBtn = document.getElementById("addAttraction");
+
+    const exportBtn = document.getElementById("exportBtn");
+    const importBtn = document.getElementById("importBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    let isEditing = false;
+
+    const DEFAULT = {
+      attractions: attractions.map(a => ({ name: a.name || "", address: a.address || "" , done:false })),
+      notesHtml: notesEl.innerHTML,
+      dailyPlan: "",
     };
 
-    // DOM elements
-    const daysContainer = document.getElementById('daysContainer');
-    const editToggle = document.getElementById('editToggle');
-    const editLabel = document.getElementById('editLabel');
-    const editIndicator = document.getElementById('editIndicator');
-    const addForm = document.getElementById('addForm');
-    const addItemBtn = document.getElementById('addItemBtn');
-    const saveNotification = document.getElementById('saveNotification');
-    
-    // Form inputs
-    const itemDay = document.getElementById('itemDay');
-    const itemTime = document.getElementById('itemTime');
-    const itemActivity = document.getElementById('itemActivity');
-    const itemDetails = document.getElementById('itemDetails');
-    const itemLocation = document.getElementById('itemLocation');
-    
-    // State
-    let isEditing = false;
-    let scheduleData = loadSchedule();
-    
-    // Initialize
-    renderSchedule();
-    
-    // Functions
-    function showNotification(message) {
-      saveNotification.innerHTML = `<i class="fas fa-check"></i> ${message}`;
-      saveNotification.classList.add('show');
-      setTimeout(() => {
-        saveNotification.classList.remove('show');
-      }, 1500);
+    function showToast(msg){
+      toast.textContent = msg;
+      toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(()=>toast.classList.remove("show"), 1100);
     }
-    
-    function loadSchedule() {
-      const saved = localStorage.getItem('xian_schedule_2026');
-      if (saved) {
-        try {
-          return JSON.parse(saved);
-        } catch {
-          return defaultSchedule;
-        }
+
+    function load(){
+      try {
+        const raw = localStorage.getItem(KEY);
+        if(!raw) return structuredClone(DEFAULT);
+        const data = JSON.parse(raw);
+        if(!data || !Array.isArray(data.attractions)) return structuredClone(DEFAULT);
+        return {
+          attractions: data.attractions,
+          notesHtml: typeof data.notesHtml === "string" ? data.notesHtml : DEFAULT.notesHtml,
+          dailyPlan: typeof data.dailyPlan === "string" ? data.dailyPlan : "",
+        };
+      } catch {
+        return structuredClone(DEFAULT);
       }
-      return defaultSchedule;
     }
-    
-    function saveSchedule() {
-      localStorage.setItem('xian_schedule_2026', JSON.stringify(scheduleData));
-      showNotification('Schedule Saved');
+
+    function save(){
+      localStorage.setItem(KEY, JSON.stringify(state));
+      showToast("Saved");
     }
-    
-    function renderSchedule() {
-      daysContainer.innerHTML = '';
-      
-      scheduleData.days.forEach(day => {
-        const dayCard = document.createElement('div');
-        dayCard.className = 'day-card';
-        
-        const itemsHtml = day.items.length > 0 
-          ? day.items.map(item => `
-            <div class="schedule-item ${item.done ? 'done' : ''}" data-id="${item.id}">
-              ${isEditing ? `
-                <div class="item-controls">
-                  <button class="control-btn edit-item" title="Edit">
-                    <i class="fas fa-edit"></i>
-                  </button>
-                  <button class="control-btn delete delete-item" title="Delete">
-                    <i class="fas fa-trash"></i>
-                  </button>
-                </div>
-              ` : ''}
-              <div class="schedule-time">${item.time}</div>
-              <div class="schedule-activity">${item.activity}</div>
-              ${item.details ? `<div class="schedule-details">${item.details}</div>` : ''}
-              ${item.location ? `<div class="schedule-location"><i class="fas fa-map-marker-alt"></i> ${item.location}</div>` : ''}
-            </div>
-          `).join('')
-          : `<div class="empty-day">No activities planned yet. Add some using the form above!</div>`;
-        
-        dayCard.innerHTML = `
-          <div class="day-header">
-            <div class="day-number">Day ${day.id}</div>
-            <div class="day-title">${day.title}</div>
-          </div>
-          <div class="schedule-list">
-            ${itemsHtml}
-          </div>
-        `;
-        
-        daysContainer.appendChild(dayCard);
-      });
-      
-      // Add event listeners to schedule items
-      document.querySelectorAll('.schedule-item').forEach(item => {
-        const itemId = parseInt(item.getAttribute('data-id'));
-        
-        // Toggle done state when clicked (if not editing)
-        item.addEventListener('click', (e) => {
-          if (isEditing) return; // Don't toggle done when editing
-          if (e.target.closest('.item-controls')) return; // Don't toggle if clicking controls
-          
-          // Find and toggle the item
-          for (const day of scheduleData.days) {
-            const foundItem = day.items.find(i => i.id === itemId);
-            if (foundItem) {
-              foundItem.done = !foundItem.done;
-              saveSchedule();
-              renderSchedule();
-              break;
-            }
-          }
+
+    let state = load();
+
+    function escapeHtml(s){
+      return String(s||"").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
+    }
+
+    function render(){
+      notesEl.innerHTML = state.notesHtml || "";
+      planEl.value = state.dailyPlan || "";
+
+      listEl.innerHTML = "";
+      state.attractions.forEach((a, idx) => {
+        const row = document.createElement("div");
+        row.className = "todo-item" + (a.done ? " done" : "");
+        row.innerHTML =
+          '<input type="checkbox" ' + (a.done ? "checked" : "") + ' aria-label="done">' +
+          '<div class="text">' +
+            '<div style="font-weight:950;">' + escapeHtml(a.name || "Untitled") + '</div>' +
+            '<div style="opacity:.78; font-weight:700; margin-top:4px;">' + escapeHtml(a.address || "Tap to add address / notes") + '</div>' +
+          '</div>' +
+          '<button class="btn" style="padding:8px 10px; border-radius:12px;" aria-label="delete">' +
+            '<i class="fa-solid fa-trash"></i>' +
+          '</button>';
+
+        const cb = row.querySelector("input");
+        cb.addEventListener("change", () => {
+          state.attractions[idx].done = !!cb.checked;
+          save();
+          render();
         });
-        
-        // Edit button event
-        const editBtn = item.querySelector('.edit-item');
-        if (editBtn) {
-          editBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            editScheduleItem(itemId);
-          });
-        }
-        
-        // Delete button event
-        const deleteBtn = item.querySelector('.delete-item');
-        if (deleteBtn) {
-          deleteBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            deleteScheduleItem(itemId);
-          });
-        }
+
+        const del = row.querySelector("button");
+        del.addEventListener("click", (e) => {
+          e.preventDefault();
+          if(!confirm("Delete this attraction?")) return;
+          state.attractions.splice(idx, 1);
+          save();
+          render();
+        });
+
+        row.addEventListener("click", (e) => {
+          if(!isEditing) return;
+          if(e.target.closest("button") || e.target.closest("input")) return;
+          const name = prompt("Attraction name:", state.attractions[idx].name || "");
+          if(name === null) return;
+          const addr = prompt("Address / notes:", state.attractions[idx].address || "");
+          if(addr === null) return;
+          state.attractions[idx].name = name.trim();
+          state.attractions[idx].address = addr.trim();
+          save();
+          render();
+        });
+
+        listEl.appendChild(row);
       });
     }
-    
-    function setEditing(on) {
-      isEditing = on;
-      
-      if (isEditing) {
-        editToggle.classList.add('editing');
-        editLabel.textContent = 'Disable Editing';
-        editIndicator.innerHTML = '<i class="fas fa-unlock"></i><span>Editing ON</span>';
-        editIndicator.classList.add('active');
-        addForm.style.display = 'block';
-      } else {
-        editToggle.classList.remove('editing');
-        editLabel.textContent = 'Enable Editing';
-        editIndicator.innerHTML = '<i class="fas fa-lock"></i><span>Editing OFF</span>';
-        editIndicator.classList.remove('active');
-        addForm.style.display = 'block'; // Keep form visible for convenience
-      }
-      
-      renderSchedule();
+
+    function setEditing(on){
+      isEditing = !!on;
+      editToggle.classList.toggle("on", isEditing);
+      editLabel.textContent = isEditing ? "Editing enabled" : "Enable editing";
+      editState.textContent = isEditing ? "Editing ON" : "Editing OFF";
+      notesEl.setAttribute("contenteditable", isEditing ? "true" : "false");
     }
-    
-    function addScheduleItem() {
-      if (!itemActivity.value.trim() || !itemTime.value.trim()) {
-        alert('Please fill in at least the activity and time fields.');
-        return;
-      }
-      
-      const dayId = parseInt(itemDay.value);
-      const day = scheduleData.days.find(d => d.id === dayId);
-      
-      if (!day) {
-        alert('Invalid day selected.');
-        return;
-      }
-      
-      // Generate a unique ID
-      const newId = Math.max(...scheduleData.days.flatMap(d => d.items.map(i => i.id)), 0) + 1;
-      
-      const newItem = {
-        id: newId,
-        time: itemTime.value.trim(),
-        activity: itemActivity.value.trim(),
-        details: itemDetails.value.trim(),
-        location: itemLocation.value.trim(),
-        done: false
-      };
-      
-      day.items.push(newItem);
-      
-      // Clear form
-      itemTime.value = '';
-      itemActivity.value = '';
-      itemDetails.value = '';
-      itemLocation.value = '';
-      
-      saveSchedule();
-      renderSchedule();
-      showNotification('Item Added');
-      
-      // Scroll to the day where item was added
-      const dayCard = document.querySelector(`.day-card:nth-child(${dayId})`);
-      if (dayCard) {
-        dayCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-      }
-    }
-    
-    function editScheduleItem(itemId) {
-      // Find the item
-      let targetItem = null;
-      let targetDay = null;
-      
-      for (const day of scheduleData.days) {
-        const foundItem = day.items.find(i => i.id === itemId);
-        if (foundItem) {
-          targetItem = foundItem;
-          targetDay = day;
-          break;
-        }
-      }
-      
-      if (!targetItem) return;
-      
-      // Populate form with item data
-      itemDay.value = targetDay.id;
-      itemTime.value = targetItem.time;
-      itemActivity.value = targetItem.activity;
-      itemDetails.value = targetItem.details || '';
-      itemLocation.value = targetItem.location || '';
-      
-      // Change button to update
-      addItemBtn.innerHTML = '<i class="fas fa-save"></i> Update Item';
-      addItemBtn.onclick = () => updateScheduleItem(itemId);
-      
-      // Scroll to form
-      addForm.scrollIntoView({ behavior: 'smooth' });
-      itemActivity.focus();
-    }
-    
-    function updateScheduleItem(itemId) {
-      if (!itemActivity.value.trim() || !itemTime.value.trim()) {
-        alert('Please fill in at least the activity and time fields.');
-        return;
-      }
-      
-      // Find and update the item
-      for (const day of scheduleData.days) {
-        const foundItem = day.items.find(i => i.id === itemId);
-        if (foundItem) {
-          foundItem.time = itemTime.value.trim();
-          foundItem.activity = itemActivity.value.trim();
-          foundItem.details = itemDetails.value.trim();
-          foundItem.location = itemLocation.value.trim();
-          break;
-        }
-      }
-      
-      // Reset form and button
-      resetForm();
-      
-      saveSchedule();
-      renderSchedule();
-      showNotification('Item Updated');
-    }
-    
-    function deleteScheduleItem(itemId) {
-      if (!confirm('Are you sure you want to delete this schedule item?')) return;
-      
-      for (const day of scheduleData.days) {
-        const index = day.items.findIndex(i => i.id === itemId);
-        if (index !== -1) {
-          day.items.splice(index, 1);
-          break;
-        }
-      }
-      
-      saveSchedule();
-      renderSchedule();
-      showNotification('Item Deleted');
-    }
-    
-    function resetForm() {
-      itemTime.value = '';
-      itemActivity.value = '';
-      itemDetails.value = '';
-      itemLocation.value = '';
-      
-      addItemBtn.innerHTML = '<i class="fas fa-plus"></i> Add to Schedule';
-      addItemBtn.onclick = addScheduleItem;
-    }
-    
-    // Event Listeners
-    editToggle.addEventListener('click', () => setEditing(!isEditing));
-    
-    addItemBtn.addEventListener('click', addScheduleItem);
-    
-    // Keyboard shortcuts
-    document.addEventListener('keydown', (e) => {
-      // Toggle editing with E key
-      if (e.key.toLowerCase() === 'e' && !e.target.matches('input, textarea, select')) {
-        e.preventDefault();
-        setEditing(!isEditing);
-      }
-      
-      // Focus on activity field with / key
-      if (e.key === '/' && !e.target.matches('input, textarea, select')) {
-        e.preventDefault();
-        itemActivity.focus();
-      }
-      
-      // Exit editing with Escape
-      if (e.key === 'Escape' && isEditing) {
-        setEditing(false);
+
+    // wire actions
+    editToggle.addEventListener("click", () => setEditing(!isEditing));
+
+    addBtn.addEventListener("click", () => {
+      if(!newName.value.trim()) return;
+      state.attractions.push({ name: newName.value.trim(), address: "", done:false });
+      newName.value = "";
+      save();
+      render();
+    });
+
+    notesEl.addEventListener("input", () => {
+      if(!isEditing) return;
+      state.notesHtml = notesEl.innerHTML;
+      localStorage.setItem(KEY, JSON.stringify(state));
+    });
+
+    planEl.addEventListener("input", () => {
+      state.dailyPlan = planEl.value;
+      localStorage.setItem(KEY, JSON.stringify(state));
+    });
+
+    exportBtn.addEventListener("click", async () => {
+      const text = JSON.stringify(state, null, 2);
+      try {
+        await navigator.clipboard.writeText(text);
+        showToast("Copied JSON");
+      } catch {
+        prompt("Copy JSON:", text);
       }
     });
-    
-    // Initialize with editing off
+
+    importBtn.addEventListener("click", () => {
+      const raw = prompt("Paste JSON here:");
+      if(!raw) return;
+      try {
+        const data = JSON.parse(raw);
+        if(!data || !Array.isArray(data.attractions)) throw new Error();
+        state = {
+          attractions: data.attractions,
+          notesHtml: typeof data.notesHtml === "string" ? data.notesHtml : "",
+          dailyPlan: typeof data.dailyPlan === "string" ? data.dailyPlan : "",
+        };
+        save();
+        render();
+      } catch {
+        alert("Invalid JSON");
+      }
+    });
+
+    resetBtn.addEventListener("click", () => {
+      if(!confirm("Reset Xi'an plan to defaults?")) return;
+      state = structuredClone(DEFAULT);
+      save();
+      render();
+    });
+
+    // shortcuts
+    document.addEventListener("keydown", (e) => {
+      if(e.key.toLowerCase() === "e") setEditing(!isEditing);
+      if(e.key === "Escape") setEditing(false);
+      if(e.key === "/" && !e.target.closest("input, textarea, [contenteditable='true']")) {
+        e.preventDefault();
+        newName.focus();
+      }
+    });
+
+    // init
     setEditing(false);
+    render();
   </script>
 </body>
 </html>
