@@ -9,6 +9,126 @@
   <link rel="stylesheet" href="../css/2026_Xian.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="icon" href="../covers/2026_Xian.png">
+  
+  <style>
+    /* Additional styles for scheduling features */
+    .scheduling-header {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    
+    .day-selector {
+      display: flex;
+      gap: 4px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 2px;
+    }
+    
+    .day-btn {
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.7);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.2s;
+    }
+    
+    .day-btn:hover {
+      background: rgba(255,255,255,0.1);
+    }
+    
+    .day-btn.active {
+      background: var(--primary-color, #4a6fa5);
+      color: white;
+    }
+    
+    .time-inputs {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-left: auto;
+    }
+    
+    .time-input {
+      padding: 4px 8px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.2);
+      color: white;
+      font-size: 0.85rem;
+      width: 70px;
+    }
+    
+    .time-input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .notes-input {
+      width: 100%;
+      padding: 8px;
+      border-radius: 8px;
+      border: 1px solid rgba(255,255,255,0.2);
+      background: rgba(0,0,0,0.2);
+      color: white;
+      font-size: 0.9rem;
+      margin-top: 8px;
+      resize: vertical;
+      min-height: 60px;
+    }
+    
+    .notes-input::placeholder {
+      color: rgba(255,255,255,0.5);
+    }
+    
+    .schedule-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      font-size: 0.8rem;
+      margin-left: 8px;
+    }
+    
+    .todo-item.scheduled .text {
+      border-left: 3px solid var(--primary-color, #4a6fa5);
+      padding-left: 8px;
+    }
+    
+    .schedule-summary {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      font-size: 0.85rem;
+      opacity: 0.9;
+    }
+    
+    @media (max-width: 768px) {
+      .scheduling-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .time-inputs {
+        margin-left: 0;
+        margin-top: 8px;
+        width: 100%;
+      }
+      
+      .time-input {
+        flex: 1;
+      }
+    }
+  </style>
 </head>
 <body class="vibe-ancient">
   <main class="wrap">
@@ -82,7 +202,7 @@
 
       <section class="card col-5" id="notes">
         <h2>Notes</h2>
-        <p>Editable memo space. Keep the “don’t forget” stuff here.</p>
+        <p>Editable memo space. Keep the "don't forget" stuff here.</p>
         <div id="notesContent" class="editable" contenteditable="false">
 <p><strong>Sample notes:</strong></p>
                             <p>• Prioritize visiting the Terracotta Warriors Museum early in the day to avoid crowds</p>
@@ -131,19 +251,19 @@
   <div class="toast" id="toast">Saved</div>
 
   <script>
-const attractions = [
-            { name: "回民街", address: "北院门125号1-51(钟楼地铁站出入口步行430米)" },
-            { name: "大唐芙蓉园", address: "西安市雁塔区曲江新区芙蓉西路99号" },
-            { name: "大明宫国家遗址公园", address: "西安市新城区自强东路585号" },
-            { name: "陕西历史博物馆", address: "西安市雁塔区小寨东路91号" },
-            { name: "西安城墙永宁门城楼", address: "西安市碑林区南大街2号西安城墙内(南侧)" },
-            { name: "小雁塔", address: "西安市碑林区友谊西路74号" },
-            { name: "大雁塔文化休闲景区", address: "西安市雁塔区和平门外雁塔路123号" },
-            { name: "大学习巷清真寺(暂停开放)", address: "西安市莲湖区大学习巷94号" },
-            { name: "秦始皇帝陵博物院", address: "西安市临潼区秦陵北路" },
-            { name: "大唐不夜城(地铁站)", address: "西安市雁塔区8号(环)线" },
-            { name: "西安W酒店", address: "曲江池东路333号(寒窑地铁站B2口步行400米)" }
-        ];
+    const attractions = [
+      { name: "回民街", address: "北院门125号1-51(钟楼地铁站出入口步行430米)" },
+      { name: "大唐芙蓉园", address: "西安市雁塔区曲江新区芙蓉西路99号" },
+      { name: "大明宫国家遗址公园", address: "西安市新城区自强东路585号" },
+      { name: "陕西历史博物馆", address: "西安市雁塔区小寨东路91号" },
+      { name: "西安城墙永宁门城楼", address: "西安市碑林区南大街2号西安城墙内(南侧)" },
+      { name: "小雁塔", address: "西安市碑林区友谊西路74号" },
+      { name: "大雁塔文化休闲景区", address: "西安市雁塔区和平门外雁塔路123号" },
+      { name: "大学习巷清真寺(暂停开放)", address: "西安市莲湖区大学习巷94号" },
+      { name: "秦始皇帝陵博物院", address: "西安市临潼区秦陵北路" },
+      { name: "大唐不夜城(地铁站)", address: "西安市雁塔区8号(环)线" },
+      { name: "西安W酒店", address: "曲江池东路333号(寒窑地铁站B2口步行400米)" }
+    ];
 
     const KEY = "plan_xian_2026_v2";
     const toast = document.getElementById("toast");
@@ -164,7 +284,15 @@ const attractions = [
     let isEditing = false;
 
     const DEFAULT = {
-      attractions: attractions.map(a => ({ name: a.name || "", address: a.address || "" , done:false })),
+      attractions: attractions.map(a => ({ 
+        name: a.name || "", 
+        address: a.address || "", 
+        done: false,
+        day: 0, // 0 = unscheduled, 1-7 = day of trip
+        startTime: "",
+        endTime: "",
+        notes: ""
+      })),
       notesHtml: notesEl.innerHTML,
       dailyPlan: "",
     };
@@ -183,7 +311,15 @@ const attractions = [
         const data = JSON.parse(raw);
         if(!data || !Array.isArray(data.attractions)) return structuredClone(DEFAULT);
         return {
-          attractions: data.attractions,
+          attractions: data.attractions.map(a => ({
+            name: a.name || "",
+            address: a.address || "",
+            done: a.done || false,
+            day: a.day || 0,
+            startTime: a.startTime || "",
+            endTime: a.endTime || "",
+            notes: a.notes || ""
+          })),
           notesHtml: typeof data.notesHtml === "string" ? data.notesHtml : DEFAULT.notesHtml,
           dailyPlan: typeof data.dailyPlan === "string" ? data.dailyPlan : "",
         };
@@ -203,6 +339,21 @@ const attractions = [
       return String(s||"").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c]));
     }
 
+    function formatTimeDisplay(time) {
+      if (!time) return '';
+      // Convert "14:30" to "2:30 PM" format
+      const [hours, minutes] = time.split(':');
+      const hour = parseInt(hours, 10);
+      const ampm = hour >= 12 ? 'PM' : 'AM';
+      const displayHour = hour % 12 || 12;
+      return `${displayHour}:${minutes} ${ampm}`;
+    }
+
+    function getDayName(day) {
+      const days = ['Unscheduled', 'Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'];
+      return days[day] || 'Unscheduled';
+    }
+
     function render(){
       notesEl.innerHTML = state.notesHtml || "";
       planEl.value = state.dailyPlan || "";
@@ -210,16 +361,31 @@ const attractions = [
       listEl.innerHTML = "";
       state.attractions.forEach((a, idx) => {
         const row = document.createElement("div");
-        row.className = "todo-item" + (a.done ? " done" : "");
-        row.innerHTML =
-          '<input type="checkbox" ' + (a.done ? "checked" : "") + ' aria-label="done">' +
-          '<div class="text">' +
-            '<div style="font-weight:950;">' + escapeHtml(a.name || "Untitled") + '</div>' +
-            '<div style="opacity:.78; font-weight:700; margin-top:4px;">' + escapeHtml(a.address || "Tap to add address / notes") + '</div>' +
-          '</div>' +
-          '<button class="btn" style="padding:8px 10px; border-radius:12px;" aria-label="delete">' +
-            '<i class="fa-solid fa-trash"></i>' +
-          '</button>';
+        row.className = "todo-item" + (a.done ? " done" : "") + (a.day > 0 ? " scheduled" : "");
+        
+        const hasSchedule = a.day > 0;
+        
+        row.innerHTML = `
+          <input type="checkbox" ${a.done ? "checked" : ""} aria-label="done">
+          <div class="text">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <div style="font-weight:950;">${escapeHtml(a.name || "Untitled")}</div>
+              ${hasSchedule ? `<span class="schedule-badge"><i class="fa-solid fa-calendar-day"></i>${getDayName(a.day)}</span>` : ''}
+            </div>
+            <div style="opacity:.78; font-weight:700; margin-top:4px;">${escapeHtml(a.address || "Tap to edit address")}</div>
+            
+            ${hasSchedule ? `
+              <div class="schedule-summary">
+                ${a.startTime ? `<span><i class="fa-solid fa-clock"></i> ${formatTimeDisplay(a.startTime)}</span>` : ''}
+                ${a.endTime ? `<span><i class="fa-solid fa-arrow-right"></i> ${formatTimeDisplay(a.endTime)}</span>` : ''}
+              </div>
+              ${a.notes ? `<div style="margin-top:8px; padding:8px; background:rgba(255,255,255,0.05); border-radius:6px; font-size:0.9rem;">${escapeHtml(a.notes)}</div>` : ''}
+            ` : ''}
+          </div>
+          <button class="btn" style="padding:8px 10px; border-radius:12px;" aria-label="delete">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        `;
 
         const cb = row.querySelector("input");
         cb.addEventListener("change", () => {
@@ -240,14 +406,121 @@ const attractions = [
         row.addEventListener("click", (e) => {
           if(!isEditing) return;
           if(e.target.closest("button") || e.target.closest("input")) return;
-          const name = prompt("Attraction name:", state.attractions[idx].name || "");
-          if(name === null) return;
-          const addr = prompt("Address / notes:", state.attractions[idx].address || "");
-          if(addr === null) return;
-          state.attractions[idx].name = name.trim();
-          state.attractions[idx].address = addr.trim();
-          save();
-          render();
+          
+          // Create modal for editing schedule
+          const modal = document.createElement("div");
+          modal.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+          `;
+          
+          modal.innerHTML = `
+            <div style="background: var(--card-bg); border-radius:12px; padding:24px; max-width:500px; width:100%; max-height:80vh; overflow-y:auto;">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                <h3 style="margin:0;">Schedule: ${escapeHtml(a.name)}</h3>
+                <button id="closeModal" style="background:none; border:none; color:white; cursor:pointer; font-size:1.5rem;">×</button>
+              </div>
+              
+              <div style="margin-bottom:16px;">
+                <label style="display:block; margin-bottom:8px; font-weight:700;">Attraction Name</label>
+                <input id="editName" value="${escapeHtml(a.name)}" style="width:100%; padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.2); color:white;">
+              </div>
+              
+              <div style="margin-bottom:16px;">
+                <label style="display:block; margin-bottom:8px; font-weight:700;">Address / Location</label>
+                <input id="editAddress" value="${escapeHtml(a.address)}" style="width:100%; padding:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:rgba(0,0,0,0.2); color:white;">
+              </div>
+              
+              <div style="margin-bottom:16px;">
+                <label style="display:block; margin-bottom:8px; font-weight:700;">Schedule for Day</label>
+                <div class="day-selector" style="justify-content:center;">
+                  <button class="day-btn ${a.day === 0 ? 'active' : ''}" data-day="0">Unscheduled</button>
+                  ${[1,2,3,4,5,6,7].map(day => `
+                    <button class="day-btn ${a.day === day ? 'active' : ''}" data-day="${day}">Day ${day}</button>
+                  `).join('')}
+                </div>
+              </div>
+              
+              <div class="time-inputs" style="margin-bottom:16px;">
+                <div style="flex:1;">
+                  <label style="display:block; margin-bottom:8px; font-weight:700;">Start Time</label>
+                  <input type="time" id="editStartTime" value="${a.startTime}" class="time-input" placeholder="09:00">
+                </div>
+                <div style="flex:1;">
+                  <label style="display:block; margin-bottom:8px; font-weight:700;">End Time</label>
+                  <input type="time" id="editEndTime" value="${a.endTime}" class="time-input" placeholder="17:00">
+                </div>
+              </div>
+              
+              <div style="margin-bottom:20px;">
+                <label style="display:block; margin-bottom:8px; font-weight:700;">Notes</label>
+                <textarea id="editNotes" class="notes-input" placeholder="Add any additional notes or reminders...">${escapeHtml(a.notes)}</textarea>
+              </div>
+              
+              <div style="display:flex; gap:12px; margin-top:24px;">
+                <button id="saveSchedule" class="btn primary" style="flex:1; justify-content:center;">Save Changes</button>
+                <button id="cancelSchedule" class="btn" style="flex:1; justify-content:center;">Cancel</button>
+              </div>
+            </div>
+          `;
+          
+          document.body.appendChild(modal);
+          
+          const closeModal = () => document.body.removeChild(modal);
+          
+          modal.querySelector("#closeModal").addEventListener("click", closeModal);
+          modal.querySelector("#cancelSchedule").addEventListener("click", closeModal);
+          
+          modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+          });
+          
+          // Day selector functionality
+          const dayButtons = modal.querySelectorAll(".day-btn");
+          let selectedDay = a.day;
+          dayButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+              dayButtons.forEach(b => b.classList.remove("active"));
+              btn.classList.add("active");
+              selectedDay = parseInt(btn.dataset.day);
+            });
+          });
+          
+          modal.querySelector("#saveSchedule").addEventListener("click", () => {
+            const name = modal.querySelector("#editName").value.trim();
+            const address = modal.querySelector("#editAddress").value.trim();
+            const startTime = modal.querySelector("#editStartTime").value;
+            const endTime = modal.querySelector("#editEndTime").value;
+            const notes = modal.querySelector("#editNotes").value.trim();
+            
+            state.attractions[idx] = {
+              ...state.attractions[idx],
+              name: name || "Untitled",
+              address: address || "",
+              day: selectedDay,
+              startTime: startTime,
+              endTime: endTime,
+              notes: notes
+            };
+            
+            save();
+            render();
+            closeModal();
+          });
+          
+          // Prevent clicks inside modal from bubbling
+          modal.querySelector("div").addEventListener("click", (e) => {
+            e.stopPropagation();
+          });
         });
 
         listEl.appendChild(row);
@@ -267,7 +540,15 @@ const attractions = [
 
     addBtn.addEventListener("click", () => {
       if(!newName.value.trim()) return;
-      state.attractions.push({ name: newName.value.trim(), address: "", done:false });
+      state.attractions.push({ 
+        name: newName.value.trim(), 
+        address: "", 
+        done: false,
+        day: 0,
+        startTime: "",
+        endTime: "",
+        notes: ""
+      });
       newName.value = "";
       save();
       render();
@@ -301,7 +582,15 @@ const attractions = [
         const data = JSON.parse(raw);
         if(!data || !Array.isArray(data.attractions)) throw new Error();
         state = {
-          attractions: data.attractions,
+          attractions: data.attractions.map(a => ({
+            name: a.name || "",
+            address: a.address || "",
+            done: a.done || false,
+            day: a.day || 0,
+            startTime: a.startTime || "",
+            endTime: a.endTime || "",
+            notes: a.notes || ""
+          })),
           notesHtml: typeof data.notesHtml === "string" ? data.notesHtml : "",
           dailyPlan: typeof data.dailyPlan === "string" ? data.dailyPlan : "",
         };
