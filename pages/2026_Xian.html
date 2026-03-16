@@ -119,7 +119,7 @@
 
   <script>
     const attractions = [
-      { name: "回民街", address: "北院门125号1-51(钟楼地铁站出入口步行430米)" },
+      { name: "回民街", address: "北院门125号1-51(钟楼地铁站出入口步行430米)",img: "../photos/2026_xian/DayALL.jpg"},
       { name: "大唐芙蓉园", address: "西安市雁塔区曲江新区芙蓉西路99号" },
       { name: "大明宫国家遗址公园", address: "西安市新城区自强东路585号" },
       { name: "陕西历史博物馆", address: "西安市雁塔区小寨东路91号" },
@@ -131,7 +131,6 @@
       { name: "大唐不夜城(地铁站)", address: "西安市雁塔区8号(环)线" },
       { name: "西安W酒店", address: "曲江池东路333号(寒窑地铁站B2口步行400米)" }
     ];
-
     const listEl = document.getElementById("attractionsList");
     const notesEl = document.getElementById("notesContent");
     const planEl = document.getElementById("dailyPlan");
@@ -147,6 +146,7 @@
         const row = document.createElement("div");
         row.className = "todo-item";
         row.innerHTML =
+          '<img class="attraction-img" src="' + escapeHtml(a.img || "") + '">' +
           '<div class="text">' +
             '<div style="font-weight:950;">' + escapeHtml(a.name || "Untitled") + '</div>' +
             '<div style="opacity:.78; font-weight:700; margin-top:4px;">' + escapeHtml(a.address || "") + '</div>' +
