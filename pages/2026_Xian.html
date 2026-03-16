@@ -97,9 +97,7 @@
             </div>
           </div>        
           <!-- fullscreen viewer -->
-          <div id="imageViewer">
-            <img id="viewerImg">
-          </div>
+
           
           
         </div>
@@ -107,7 +105,10 @@
         <textarea class="note" id="dailyPlan" readonly placeholder="No daily plan drafted yet…"></textarea>
       </section>
     </div>
-
+    
+    <div id="imageViewer">
+      <img id="viewerImg">
+    </div>
     <section class="card" id="links">
       <h2>Links</h2>
       <div class="grid" style="margin-top:10px;">
@@ -179,20 +180,33 @@
       // Set notes content
       planEl.value = "Day 1: Arrival and settle in\nDay 2: Terracotta Warriors Museum\nDay 3: City Wall and Muslim Quarter\nDay 4: Big Wild Goose Pagoda and departure";
     }
-    // image viewer
+    // Image viewer
     const viewer = document.getElementById("imageViewer");
     const viewerImg = document.getElementById("viewerImg");
     
-    document.querySelectorAll(".image-gallery img").forEach(img => {
-      img.addEventListener("click", () => {
-        viewerImg.src = img.src;
-        viewer.classList.add("active");
+    function initGallery() {
+      document.querySelectorAll(".image-gallery img").forEach(img => {
+        img.addEventListener("click", (e) => {
+          viewerImg.src = img.src;
+          viewer.classList.add("active");
+          e.stopPropagation();
+        });
       });
-    });
+    }
     
+    // close viewer
     viewer.addEventListener("click", () => {
       viewer.classList.remove("active");
     });
+    
+    // optional ESC key close
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        viewer.classList.remove("active");
+      }
+    });
+    
+    initGallery();
     // Initialize
     render();
   </script>
