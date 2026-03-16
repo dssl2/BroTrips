@@ -123,6 +123,19 @@
         margin-top: 8px;
         width: 100%;
       }
+      .todo-item{
+        display:flex;
+        gap:14px;
+        align-items:center;
+        margin-bottom:12px;
+      }
+
+      .attraction-img{
+        width:80px;
+        height:80px;
+        object-fit:cover;
+        border-radius:8px;
+      }
       
       .time-input {
         flex: 1;
