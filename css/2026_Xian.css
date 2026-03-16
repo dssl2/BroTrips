@@ -12,6 +12,15 @@
   
   <style>
     /* Additional styles for scheduling features */
+    .wrap{
+      position: relative;
+      z-index: 1;
+    }
+    body.vibe-ancient{
+      background: linear-gradient(180deg,#0f1116 0%,#1a1d25 40%,#0f1116 100%);
+      background-attachment: fixed;
+    }
+
     .notes-images{
       margin-top:16px;
     }
