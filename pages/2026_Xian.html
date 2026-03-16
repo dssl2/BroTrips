@@ -179,7 +179,7 @@
           (a.img ? '<img class="attraction-img" src="' + escapeHtml(a.img) + '">' : '') +
           '<div class="text">' +
             '<div style="font-weight:950;">' + escapeHtml(a.name || "Untitled") + '</div>' +
-            '<div style="opacity:.78; font-weight:700; margin-top:4px;">' + escapeHtml(a.address || "") + '</div>' +
+            '<div style="opacity:.78; font-weight:700; margin-top:4px;">' + formatAddress(a.address) + '</div>' +
           '</div>';
         listEl.appendChild(row);
       });
@@ -215,6 +215,18 @@
     
     initGallery();
     // Initialize
+
+    function formatAddress(addr){
+      if(!addr) return "";
+      
+      // detect http / https links
+      if(/^https?:\/\//i.test(addr)){
+        return '<a href="' + addr + '" target="_blank" rel="noopener" style="color:#8bbcff; text-decoration:none;">Open Map ↗</a>';
+      }
+    
+      return escapeHtml(addr);
+    }    
+    
     render();
   </script>
 </body>
