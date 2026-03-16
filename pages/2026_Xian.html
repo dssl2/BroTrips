@@ -86,7 +86,21 @@
           <div class="image-gallery">
             <img src="../photos/2026_xian/DayALL.jpg" alt="Xi'an reference image">
           </div>
-
+          
+          <div class="notes-images">
+            <h3>Reference Images</h3>
+          
+            <div class="image-gallery">
+              <img src="../photos/2026_xian/DayALL.jpg" alt="Xi'an image">
+              <img src="../photos/2026_xian/sample2.jpg" alt="Xi'an image">
+              <img src="../photos/2026_xian/sample3.jpg" alt="Xi'an image">
+            </div>
+          </div>        
+          <!-- fullscreen viewer -->
+          <div id="imageViewer">
+            <img id="viewerImg">
+          </div>
+          
           
         </div>
         <div style="height:10px;"></div>
@@ -165,7 +179,20 @@
       // Set notes content
       planEl.value = "Day 1: Arrival and settle in\nDay 2: Terracotta Warriors Museum\nDay 3: City Wall and Muslim Quarter\nDay 4: Big Wild Goose Pagoda and departure";
     }
-
+    // image viewer
+    const viewer = document.getElementById("imageViewer");
+    const viewerImg = document.getElementById("viewerImg");
+    
+    document.querySelectorAll(".image-gallery img").forEach(img => {
+      img.addEventListener("click", () => {
+        viewerImg.src = img.src;
+        viewer.classList.add("active");
+      });
+    });
+    
+    viewer.addEventListener("click", () => {
+      viewer.classList.remove("active");
+    });
     // Initialize
     render();
   </script>
